@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 // Assuming Button is imported if needed for Quick Actions later
-// import Button from '../components/common/Button';
+import Button from '../components/common/Button';
 
 // Assume themeColors is available globally or via context/props
 const themeColors = {
@@ -70,6 +70,11 @@ const DashboardOverview = () => {
     const [aiAssignText, setAiAssignText] = useState('');
     const [isFetchingAiAssign, setIsFetchingAiAssign] = useState(false);
     const [aiAssignError, setAiAssignError] = useState(null);
+
+    const [isSuggestingTasks, setIsSuggestingTasks] = useState(false);
+    const [suggestTasksError, setSuggestTasksError] = useState(null);
+    const [suggestTasksSuccess, setSuggestTasksSuccess] = useState('');
+    // ---------------------------------------------
     // Fetch all dashboard data on component mount
 
     const fetchAiAssignRecommendation = useCallback(async (goalData, clientListData) => {
@@ -105,7 +110,7 @@ const DashboardOverview = () => {
 
 
       // Construct the prompt
-      const promptText = `Please be crisp and in bullets. Give a Rating of my last 1 month of work. My current goal is to achieve an income of ${goalIncome} for the period ${goalPeriod}. My client portfolio overview: ${clientSummary}. My Corrent income ${metrics.commissionThisMonth.toLocaleString('en-IN')} Based on my goal and this client overview, suggest 2 specific, actionable tasks or strategies I should prioritize this week to work towards my income goal. Also, review my last weeks performance. Focus on activities like lead conversion, cross-selling, upselling, or identifying high-potential clients. Keep the suggestions concise and action-oriented. Also, tell me what I am going correct, what I am doing wrong. Also tell me if  I am on my way to achieve target or not`;
+      const promptText = ` My current goal is to achieve an income of ${goalIncome} for the period ${goalPeriod}.  My client portfolio overview: ${clientSummary}. My Corrent income ${metrics.commissionThisMonth.toLocaleString('en-IN')} Please break down the goal into weekly sprints and suggest me How many clients should I target this month to ensure I am on track.  How many policies Should I target this month. Strictly esitmate in numbers. Not more than 200 words. Keep the tone formal `;
 
       console.log("Sending AI Assign prompt to Gemini:", promptText);
 
@@ -149,10 +154,19 @@ const DashboardOverview = () => {
       }
 
   }, []);
-    const fetchDashboardData = useCallback(async () => {
-        setIsLoading(true);
+  const fetchDashboardData = useCallback(async (refreshType = 'all') => {
+    setIsLoading(true);
         setError(null);
         const token = localStorage.getItem('authToken');
+        if (refreshType === 'all') setIsLoading(true);
+        // Clear general error only on full refresh
+        if (refreshType === 'all') setError(null);
+
+        // Clear task-specific messages if not refreshing tasks
+        if (refreshType !== 'tasks') {
+            setSuggestTasksError(null);
+            setSuggestTasksSuccess('');
+        }
         if (!token) { setError("Authentication error: Not logged in."); setIsLoading(false); return; }
 
         const headers = { 'Authorization': `Bearer ${token}` };
@@ -238,6 +252,35 @@ const DashboardOverview = () => {
         fetchDashboardData();
     }, [fetchDashboardData]); // Depend on the function itself
 
+
+    const handleSuggestTasks = async () => {
+      setIsSuggestingTasks(true);
+      setSuggestTasksError(null);
+      setSuggestTasksSuccess('');
+      const token = localStorage.getItem('authToken');
+      if (!token) { setSuggestTasksError("Authentication error."); setIsSuggestingTasks(false); return; }
+
+      console.log("Requesting AI task suggestions...");
+
+      try {
+          const response = await fetch(`http://localhost:8080/api/agents/suggest-tasks`, {
+              method: 'POST',
+              headers: { 'Authorization': `Bearer ${token}` },
+          });
+          const result = await response.json();
+          if (!response.ok) { throw new Error(result.error || `Failed to get suggestions (${response.status})`); }
+
+          setSuggestTasksSuccess(result.message || "AI tasks suggested successfully!");
+          // Refresh the task list displayed on the dashboard
+          fetchDashboardData('tasks');
+
+      } catch (err) {
+          console.error("Suggest Tasks Error:", err);
+          setSuggestTasksError(err.message || "An error occurred while suggesting tasks.");
+      } finally {
+          setIsSuggestingTasks(false);
+      }
+  };
     // --- Rendering Logic ---
     // if (isLoading) { return <div className="text-center p-10 text-gray-500"><i className="fas fa-spinner fa-spin text-3xl text-[--brand-purple]"></i><p className="mt-2">Loading Dashboard...</p></div>; }
     // // Show general error if loading finished but we have an error message
@@ -253,7 +296,31 @@ if (error && tasks.length === 0 && activities.length === 0) {
     return (
 
         <div className="" style={{'--brand-purple': themeColors.brandPurple}}>
-        
+        <div className="mb-6 p-4 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg shadow-lg text-white">
+                <h2 className="text-xl font-semibold mb-2 flex items-center">
+                    <i className="fas fa-magic mr-2"></i> AI Task Suggestions
+                </h2>
+                <p className="text-sm text-indigo-100 mb-3">Let AI analyze your client portfolio and suggest relevant tasks for the week.</p>
+
+                {/* Display Suggestion Action Feedback */}
+                 <div className="mb-3 text-center">
+                     {suggestTasksSuccess && <p className="text-sm text-green-200 p-2 bg-green-800 bg-opacity-40 rounded">{suggestTasksSuccess}</p>}
+                     {suggestTasksError && <p className="text-sm text-red-100 p-2 bg-red-800 bg-opacity-40 rounded">{suggestTasksError}</p>}
+                 </div>
+
+                <Button
+                    onClick={handleSuggestTasks}
+                    disabled={isSuggestingTasks}
+                    variant="secondary" // Use secondary style for button on dark bg
+                    className="bg-white bg-opacity-20 text-white border-white hover:bg-opacity-30 disabled:bg-opacity-10"
+                >
+                    {isSuggestingTasks ? (
+                        <><i className="fas fa-spinner fa-spin mr-2"></i>Generating...</>
+                    ) : (
+                        <><i className="fas fa-wand-magic-sparkles mr-2"></i>Suggest Weekly Tasks</>
+                    )}
+                </Button>
+            </div>
           <div className="mb-6 p-4 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg shadow-lg text-white">
                 <h2 className="text-xl font-semibold mb-2 flex items-center">
                     <i className="fas fa-brain mr-2"></i> AI Assist- Your Weekly AI Guide
