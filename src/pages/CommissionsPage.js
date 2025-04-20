@@ -94,9 +94,9 @@ const CommissionsPage = () => {
     }, [commissionRecords]);
 
     // Handle filter application (currently triggers fetch via useEffect dependency)
-    const handleFilter = () => {
-        fetchCommissions(); // Manually trigger fetch if needed, though useEffect does it
-    };
+    // const handleFilter = () => {
+    //     fetchCommissions(); // Manually trigger fetch if needed, though useEffect does it
+    // };
 
     return (
         <div style={{'--brand-purple': themeColors.brandPurple}}>
