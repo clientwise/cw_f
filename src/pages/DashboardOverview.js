@@ -183,15 +183,15 @@ const DashboardOverview = () => {
       };
 
         // Helper to fetch individual endpoints
-        const fetchApi = async (endpoint) => {
-            const response = await fetch(`${baseUrl}/${endpoint}`, { headers });
-            if (!response.ok) {
-                let errorMsg = `Error fetching ${endpoint}: ${response.status}`;
-                try { const d = await response.json(); errorMsg = d.error || errorMsg; } catch(e){}
-                throw new Error(errorMsg);
-            }
-            return response.json();
-        };
+        // const fetchApi = async (endpoint) => {
+        //     const response = await fetch(`${baseUrl}/${endpoint}`, { headers });
+        //     if (!response.ok) {
+        //         let errorMsg = `Error fetching ${endpoint}: ${response.status}`;
+        //         try { const d = await response.json(); errorMsg = d.error || errorMsg; } catch(e){}
+        //         throw new Error(errorMsg);
+        //     }
+        //     return response.json();
+        // };
 
         try {
           // Fetch all data concurrently
@@ -364,7 +364,7 @@ if (error && tasks.length === 0 && activities.length === 0) {
                     <div> <p className="text-sm font-medium text-gray-500">Upcoming Renewals (30d)</p> <p className="text-2xl font-bold text-gray-800">{metrics.upcomingRenewals30d}</p> </div>
                     <div className={`p-3 rounded-full ${getIconBgColor('yellow')}`}> <i className="fas fa-calendar-check fa-lg"></i> </div>
                 </div>
-                 <a href="#" className="text-xs text-purple-600 hover:underline mt-2 block">View Renewals</a>
+                 <a href="https://www.goclientwise.com" className="text-xs text-purple-600 hover:underline mt-2 block">View Renewals</a>
             </div>
             <div className="bg-white p-5 rounded-lg shadow border border-gray-100 animate-on-scroll delay-200">
                 <div className="flex items-center justify-between">
@@ -378,7 +378,7 @@ if (error && tasks.length === 0 && activities.length === 0) {
                     <div> <p className="text-sm font-medium text-gray-500">New Leads (Week)</p> <p className="text-2xl font-bold text-gray-800">{metrics.newLeadsThisWeek}</p> </div>
                      <div className={`p-3 rounded-full ${getIconBgColor('blue')}`}> <i className="fas fa-user-plus fa-lg"></i> </div>
                 </div>
-                 <a href="#" className="text-xs text-purple-600 hover:underline mt-2 block">Manage Leads</a>
+                 <a href="https://www.goclientwise.com" className="text-xs text-purple-600 hover:underline mt-2 block">Manage Leads</a>
             </div>
 
             {/* Upcoming Tasks Card - Now using fetched data */}
@@ -396,7 +396,7 @@ if (error && tasks.length === 0 && activities.length === 0) {
                         ))}
                     </ul>
                 )}
-                 <a href="#" className="text-xs text-purple-600 hover:underline mt-4 block text-right">View All Tasks</a>
+                 <a href="https://www.goclientwise.com" className="text-xs text-purple-600 hover:underline mt-4 block text-right">View All Tasks</a>
             </div>
 
              {/* Recent Activity Card - Now using fetched data */}
@@ -418,7 +418,7 @@ if (error && tasks.length === 0 && activities.length === 0) {
                         })}
                     </ul>
                 )}
-                 <a href="#" className="text-xs text-purple-600 hover:underline mt-4 block text-right">View Full Log</a>
+                 <a href="https://www.goclientwise.com" className="text-xs text-purple-600 hover:underline mt-4 block text-right">View Full Log</a>
             </div>
 
             {/* Quick Actions Card (Placeholder) */}
