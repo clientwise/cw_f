@@ -44,6 +44,7 @@ const AgentProfilePage = () => {
                 throw new Error(errorMsg);
             }
             const profileData = await profileRes.json();
+            console.log(profileData,"profileData")
             setAgentProfile(profileData || null);
 
              // Process Goal Response
@@ -83,6 +84,7 @@ const AgentProfilePage = () => {
 
 
     // --- Rendering Logic ---
+    console.log(agentProfile,"agentProfile")
     if (isLoading) { return <div className="text-center p-10 text-gray-500"><i className="fas fa-spinner fa-spin text-3xl text-[--brand-purple]"></i><p className="mt-2">Loading Profile...</p></div>; }
     if (error && !agentProfile) { return <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative m-4" role="alert"><strong className="font-bold">Error: </strong><span className="block sm:inline">{error}</span></div>; }
     if (!agentProfile) { return <div className="text-center p-10 text-gray-500">Could not load agent profile.</div>; }
