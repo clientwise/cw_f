@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 // Import hooks from react-router-dom
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 // Import common components (adjust paths as needed)
 import Button from '../components/common/Button';
 // Import the modal component (adjust path if needed)
@@ -19,41 +19,41 @@ const themeColors = {
     gray900: '#111827', green500: '#22c55e',
 };
 
-// Helper function to format date strings or return 'N/A'
- const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    try {
-         // Handle potential null time from Go's sql.NullTime
-         if (typeof dateString === 'object' && dateString !== null && dateString.Valid && dateString.Time) {
-             dateString = dateString.Time;
-         } else if (typeof dateString === 'object' && dateString !== null && !dateString.Valid) {
-             return 'N/A'; // Explicitly handle invalid NullTime
-         }
-        const date = new Date(dateString);
-        if (isNaN(date.getTime())) return 'Invalid Date'; // Check if date is valid
-        return date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
-    } catch (e) {
-        console.warn("Date formatting error for:", dateString, e);
-        return 'Error'; // Indicate a formatting problem
-    }
- };
+// // Helper function to format date strings or return 'N/A'
+//  const formatDate = (dateString) => {
+//     if (!dateString) return 'N/A';
+//     try {
+//          // Handle potential null time from Go's sql.NullTime
+//          if (typeof dateString === 'object' && dateString !== null && dateString.Valid && dateString.Time) {
+//              dateString = dateString.Time;
+//          } else if (typeof dateString === 'object' && dateString !== null && !dateString.Valid) {
+//              return 'N/A'; // Explicitly handle invalid NullTime
+//          }
+//         const date = new Date(dateString);
+//         if (isNaN(date.getTime())) return 'Invalid Date'; // Check if date is valid
+//         return date.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
+//     } catch (e) {
+//         console.warn("Date formatting error for:", dateString, e);
+//         return 'Error'; // Indicate a formatting problem
+//     }
+//  };
 
 
 // Placeholder data for a single product - Replace with API call
-const fetchProductDetailsPlaceholder = async (productId) => {
-  console.log(`Fetching details for product ID: ${productId} (Placeholder)`);
-  await new Promise(resolve => setTimeout(resolve, 300)); // Simulate network delay
-  // Find product in placeholder list or return a default structure
-  // In a real app, this function would make the actual API call
-  const products = [
-      { id: 'prod_health_01', category: 'Health Insurance', name: 'MediSecure Plus', insurer: 'SecureHealth General', description: {String: 'The MediSecure Plus plan is a comprehensive family floater health insurance policy offered by SecureHealth General Insurance...', Valid: true}, status: 'Active', code: 'SHG-MSP-01', features: {String: '["Family Floater (5L to 50L)", "Cashless Treatment (8000+ hospitals)", "60 days Pre-hospitalization", "90 days Post-hospitalization", "Day Care procedures covered", "No Claim Bonus up to 100%", "Optional Critical Illness Rider"]', Valid: true}, eligibility: {String: 'Adult: 18-65 yrs, Child: 91 days - 25 yrs', Valid: true}, term: {String: '1, 2, or 3 years', Valid: true}, exclusions: {String: 'Pre-existing diseases (waiting period applies), cosmetic treatments, non-allopathic treatments.', Valid: true}, roomRent: {String: 'Up to 1% of Sum Insured per day (Standard Room)', Valid: true}, premiumIndication: {String: '~ ₹8,500 (+ GST) for 30yo/10L cover', Valid: true}, insurerLogoURL: {String: `https://placehold.co/40x40/${themeColors.purple100.substring(1)}/${themeColors.brandPurple.substring(1)}?text=SH`, Valid: true}, brochureUrl: { String: '#', Valid: true }, wordingUrl: { String: '#', Valid: true }, claimFormUrl: { String: '#', Valid: true }, createdAt: new Date(), updatedAt: {Time: new Date(), Valid: true} },
-      { id: 'prod_life_01', category: 'Life Insurance', name: 'TermProtect Max', insurer: 'InsureCo Life', description: {String: 'High cover term plan with riders.', Valid: true}, status: 'Active', code: 'ICL-TPM-05', features: {String: '["High Sum Assured Options", "Critical Illness Rider Option", "Waiver of Premium"]', Valid: true}, eligibility: {String: '18-60 years', Valid: true}, term: {String: '5 to 40 years', Valid: true}, exclusions: {String: 'Suicide clause (first year)', Valid: true}, roomRent: { Valid: false }, premiumIndication: {String: '~ ₹12,000 (+ GST) for 30yo/1 Cr cover/30yr term', Valid: true}, insurerLogoURL: {String: `https://placehold.co/40x40/dcfce7/15803d?text=IL`, Valid: true}, brochureUrl: { String: '#', Valid: true }, wordingUrl: { String: '#', Valid: true }, claimFormUrl: { Valid: false }, createdAt: new Date(), updatedAt: {Time: new Date(), Valid: true} },
-       // Add other products as needed for testing different IDs
-    ];
-  const product = products.find(p => p.id === productId);
-  if (!product) { throw new Error(`Product with ID '${productId}' not found.`); }
-  return product;
-};
+// const fetchProductDetailsPlaceholder = async (productId) => {
+//   console.log(`Fetching details for product ID: ${productId} (Placeholder)`);
+//   await new Promise(resolve => setTimeout(resolve, 300)); // Simulate network delay
+//   // Find product in placeholder list or return a default structure
+//   // In a real app, this function would make the actual API call
+//   const products = [
+//       { id: 'prod_health_01', category: 'Health Insurance', name: 'MediSecure Plus', insurer: 'SecureHealth General', description: {String: 'The MediSecure Plus plan is a comprehensive family floater health insurance policy offered by SecureHealth General Insurance...', Valid: true}, status: 'Active', code: 'SHG-MSP-01', features: {String: '["Family Floater (5L to 50L)", "Cashless Treatment (8000+ hospitals)", "60 days Pre-hospitalization", "90 days Post-hospitalization", "Day Care procedures covered", "No Claim Bonus up to 100%", "Optional Critical Illness Rider"]', Valid: true}, eligibility: {String: 'Adult: 18-65 yrs, Child: 91 days - 25 yrs', Valid: true}, term: {String: '1, 2, or 3 years', Valid: true}, exclusions: {String: 'Pre-existing diseases (waiting period applies), cosmetic treatments, non-allopathic treatments.', Valid: true}, roomRent: {String: 'Up to 1% of Sum Insured per day (Standard Room)', Valid: true}, premiumIndication: {String: '~ ₹8,500 (+ GST) for 30yo/10L cover', Valid: true}, insurerLogoURL: {String: `https://placehold.co/40x40/${themeColors.purple100.substring(1)}/${themeColors.brandPurple.substring(1)}?text=SH`, Valid: true}, brochureUrl: { String: '#', Valid: true }, wordingUrl: { String: '#', Valid: true }, claimFormUrl: { String: '#', Valid: true }, createdAt: new Date(), updatedAt: {Time: new Date(), Valid: true} },
+//       { id: 'prod_life_01', category: 'Life Insurance', name: 'TermProtect Max', insurer: 'InsureCo Life', description: {String: 'High cover term plan with riders.', Valid: true}, status: 'Active', code: 'ICL-TPM-05', features: {String: '["High Sum Assured Options", "Critical Illness Rider Option", "Waiver of Premium"]', Valid: true}, eligibility: {String: '18-60 years', Valid: true}, term: {String: '5 to 40 years', Valid: true}, exclusions: {String: 'Suicide clause (first year)', Valid: true}, roomRent: { Valid: false }, premiumIndication: {String: '~ ₹12,000 (+ GST) for 30yo/1 Cr cover/30yr term', Valid: true}, insurerLogoURL: {String: `https://placehold.co/40x40/dcfce7/15803d?text=IL`, Valid: true}, brochureUrl: { String: '#', Valid: true }, wordingUrl: { String: '#', Valid: true }, claimFormUrl: { Valid: false }, createdAt: new Date(), updatedAt: {Time: new Date(), Valid: true} },
+//        // Add other products as needed for testing different IDs
+//     ];
+//   const product = products.find(p => p.id === productId);
+//   if (!product) { throw new Error(`Product with ID '${productId}' not found.`); }
+//   return product;
+// };
 
 
 const ProductProfilePage = () => {

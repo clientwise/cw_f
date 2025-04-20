@@ -145,7 +145,7 @@ const ClientProfilePage = () => {
     const [communications, setCommunications] = useState([]);
     const [tasks, setTasks] = useState([]);
     const [documents, setDocuments] = useState([]);
-    const [aiRecommendations, setAiRecommendations] = useState([]); // Placeholder state
+    // const [aiRecommendations, setAiRecommendations] = useState([]); // Placeholder state
     const [coverageEstimation, setCoverageEstimation] = useState(null);
     const [isEstimationLoading, setIsEstimationLoading] = useState(true);
     const [estimationError, setEstimationError] = useState(null);
@@ -328,7 +328,7 @@ const [linkError, setLinkError] = useState('');
     const handleEditClient = () => alert(`Edit client ${clientId} (Not Implemented)`);
     const handleViewPolicy = (policyId) => alert(`View policy ${policyId} (Not Implemented)`);
     const handleAiSummary = (policyId) => alert(`Show AI Summary for policy ${policyId} (Not Implemented)`);
-    const handleProposePolicy = (recId) => alert(`Propose recommended policy ${recId} (Not Implemented)`);
+    // const handleProposePolicy = (recId) => alert(`Propose recommended policy ${recId} (Not Implemented)`);
 
     // --- Modal Open/Close Handlers ---
     const openShareModal = (policy) => { setSelectedPolicyForShare(policy); setIsShareModalOpen(true); };

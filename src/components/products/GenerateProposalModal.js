@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import InputField from '../common/InputField'; // Adjust path if needed
+// import InputField from '../common/InputField'; // Adjust path if needed
 import Button from '../common/Button'; // Adjust path if needed
 
 // Assume themeColors is available globally or via context/props
@@ -173,7 +173,7 @@ const GenerateProposalModal = ({ isOpen, onClose, product }) => {
         setIsSubmitting(true);
         setSubmitError('');
         setSubmitMessage('');
-        const token = localStorage.getItem('authToken');
+        // const token = localStorage.getItem('authToken');
 
         const payload = {
             // Ensure ID is accessed correctly, assuming ID is never a {String, Valid} object

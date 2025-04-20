@@ -10,7 +10,7 @@ const themeColors = { brandPurple: '#5a239e', /* ... */ };
 const formatDate = (dateString) => { /* ... */ };
 
 const AgentProfilePage = () => {
-    const { userInfo } = useOutletContext();
+    // const { userInfo } = useOutletContext();
     const [agentProfile, setAgentProfile] = useState(null); // Will hold FullAgentProfile
     const [agentGoal, setAgentGoal] = useState(null);
     const [isLoading, setIsLoading] = useState(true);

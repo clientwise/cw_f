@@ -28,16 +28,16 @@ const themeColors = {
 };
 
 // Placeholder data for products - Replace with API call later
-const placeholderProducts = [
-  { id: 'prod_health_01', category: 'Health Insurance', name: 'MediSecure Plus', insurer: 'SecureHealth General', description: {String: 'Comprehensive family floater plan.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/${themeColors.purple100.substring(1)}/${themeColors.brandPurple.substring(1)}?text=SH`, Valid: true}, status: 'Active' },
-  { id: 'prod_life_01', category: 'Life Insurance', name: 'TermProtect Max', insurer: 'InsureCo Life', description: {String: 'High cover term plan with riders.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/dcfce7/15803d?text=IL`, Valid: true}, status: 'Active' },
-  { id: 'prod_motor_01', category: 'Motor Insurance', name: 'DriveSafe Comprehensive', insurer: 'AutoProtect Motor', description: {String: 'Full coverage car insurance.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/cffafe/0e7490?text=AP`, Valid: true}, status: 'Active' },
-  { id: 'prod_travel_01', category: 'Travel Insurance', name: 'Global Voyager Secure', insurer: 'Global Voyager Travel', description: {String: 'International travel coverage.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/fef3c7/b45309?text=GV`, Valid: true}, status: 'Active' },
-  { id: 'prod_health_02', category: 'Health Insurance', name: 'SeniorCare Gold', insurer: 'SecureHealth General', description: {String: 'Specialized plan for senior citizens.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/${themeColors.purple100.substring(1)}/${themeColors.brandPurple.substring(1)}?text=SH`, Valid: true}, status: 'Active' },
-  { id: 'prod_life_02', category: 'Life Insurance', name: 'InvestSecure ULIP', insurer: 'InsureCo Life', description: {String: 'Unit-linked investment & insurance plan.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/dcfce7/15803d?text=IL`, Valid: true}, status: 'Inactive' },
-  { id: 'prod_motor_02', category: 'Motor Insurance', name: 'BikeProtect Basic', insurer: 'AutoProtect Motor', description: {String: 'Third-party liability for two-wheelers.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/cffafe/0e7490?text=AP`, Valid: true}, status: 'Active' },
-  { id: 'prod_prop_01', category: 'Property Insurance', name: 'HomeSecure Plus', insurer: 'SecureHome General', description: {String: 'Home structure and content insurance.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/fce7f3/9d174d?text=SG`, Valid: true}, status: 'Active' },
-];
+// const placeholderProducts = [
+//   { id: 'prod_health_01', category: 'Health Insurance', name: 'MediSecure Plus', insurer: 'SecureHealth General', description: {String: 'Comprehensive family floater plan.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/${themeColors.purple100.substring(1)}/${themeColors.brandPurple.substring(1)}?text=SH`, Valid: true}, status: 'Active' },
+//   { id: 'prod_life_01', category: 'Life Insurance', name: 'TermProtect Max', insurer: 'InsureCo Life', description: {String: 'High cover term plan with riders.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/dcfce7/15803d?text=IL`, Valid: true}, status: 'Active' },
+//   { id: 'prod_motor_01', category: 'Motor Insurance', name: 'DriveSafe Comprehensive', insurer: 'AutoProtect Motor', description: {String: 'Full coverage car insurance.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/cffafe/0e7490?text=AP`, Valid: true}, status: 'Active' },
+//   { id: 'prod_travel_01', category: 'Travel Insurance', name: 'Global Voyager Secure', insurer: 'Global Voyager Travel', description: {String: 'International travel coverage.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/fef3c7/b45309?text=GV`, Valid: true}, status: 'Active' },
+//   { id: 'prod_health_02', category: 'Health Insurance', name: 'SeniorCare Gold', insurer: 'SecureHealth General', description: {String: 'Specialized plan for senior citizens.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/${themeColors.purple100.substring(1)}/${themeColors.brandPurple.substring(1)}?text=SH`, Valid: true}, status: 'Active' },
+//   { id: 'prod_life_02', category: 'Life Insurance', name: 'InvestSecure ULIP', insurer: 'InsureCo Life', description: {String: 'Unit-linked investment & insurance plan.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/dcfce7/15803d?text=IL`, Valid: true}, status: 'Inactive' },
+//   { id: 'prod_motor_02', category: 'Motor Insurance', name: 'BikeProtect Basic', insurer: 'AutoProtect Motor', description: {String: 'Third-party liability for two-wheelers.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/cffafe/0e7490?text=AP`, Valid: true}, status: 'Active' },
+//   { id: 'prod_prop_01', category: 'Property Insurance', name: 'HomeSecure Plus', insurer: 'SecureHome General', description: {String: 'Home structure and content insurance.', Valid: true}, insurerLogo: {String: `https://placehold.co/40x40/fce7f3/9d174d?text=SG`, Valid: true}, status: 'Active' },
+// ];
 
 const ProductsPage = () => {
     const [products, setProducts] = useState([]);
