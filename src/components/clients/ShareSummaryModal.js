@@ -34,7 +34,7 @@ const ShareSummaryModal = ({ isOpen, onClose, policy }) => {
 
             // --- Placeholder for API call to get AI Summary ---
             console.log(`TODO: Fetch AI Summary for policy ID: ${policy.id}`);
-            const token = localStorage.getItem('authToken');
+            // const token = localStorage.getItem('authToken');
             // Example: fetch(`/api/policies/${policy.id}/summarize`, { headers: { 'Authorization': `Bearer ${token}` } })
             //   .then(res => res.json())
             //   .then(data => setAiSummary(data.summary))
@@ -55,7 +55,7 @@ const ShareSummaryModal = ({ isOpen, onClose, policy }) => {
         setIsLoadingLink(true);
         setError('');
         setGeneratedLink('');
-        const token = localStorage.getItem('authToken');
+        // const token = localStorage.getItem('authToken');
         console.log(`TODO: Call API to generate share link for policy ${policy?.id}`, { includeWording, includeProposal });
 
         // Example: fetch(`/api/policies/${policy.id}/share-link`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ includeWording, includeProposal }) }) ...
@@ -69,7 +69,7 @@ const ShareSummaryModal = ({ isOpen, onClose, policy }) => {
     const handleDownloadPdf = async () => {
         setIsLoadingPdf(true);
         setError('');
-        const token = localStorage.getItem('authToken');
+        // const token = localStorage.getItem('authToken');
         console.log(`TODO: Call API to download PDF summary for policy ${policy?.id}`, { includeWording, includeProposal });
 
         // Example: fetch(`/api/policies/${policy.id}/summary.pdf?wording=${includeWording}&proposal=${includeProposal}`, { headers: { 'Authorization': `Bearer ${token}` } })
