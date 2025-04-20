@@ -210,7 +210,7 @@ const [linkError, setLinkError] = useState('');
 
         } catch (err) { if (!error) setError(err.message || "An unexpected error occurred."); }
         finally { if (isFullLoad) setIsLoading(false); }
-    }, [clientId]); // Removed error dependency
+    }, [clientId, error]); // Removed error dependency
 
     useEffect(() => {
         fetchData('all');
