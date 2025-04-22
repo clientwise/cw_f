@@ -14,8 +14,8 @@ const Header = ({ navigateToLogin }) => (
                 <a href="https://www.goclientwise.in"  className="text-[--brand-beige] hover:text-[--brand-beige-hover] font-medium text-sm">About Us</a>
             </div>
             <div className="hidden md:flex items-center">
-                 <Button onClick={() => navigateToLogin('login')} variant="header" className="mr-2">Login</Button>
-                 <Button onClick={() => navigateToLogin('signup')} variant="header">Sign Up</Button>
+                 <Button onClick={() => navigateToLogin('login')} variant="primary" className="mr-2">Login</Button>
+                 <Button onClick={() => navigateToLogin('signup')} variant="primary">Sign Up</Button>
             </div>
             <button id="mobile-menu-button" className="md:hidden focus:outline-none text-[--brand-beige] hover:text-[--brand-beige-hover]">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>

@@ -1,6 +1,34 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback ,useMemo} from 'react';
 // Assuming Button is imported if needed for Quick Actions later
 import Button from '../components/common/Button';
+import { Link } from 'react-router-dom'; // Import Link
+import AddClientModal from '../components/clients/AddClientModal'; // Import Add Client Modal
+
+
+// Import Chart.js components
+import {
+  Chart as ChartJS,
+  CategoryScale, // x axis
+  LinearScale, // y axis
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+
+// Register Chart.js components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
 
 // Assume themeColors is available globally or via context/props
 const themeColors = {
@@ -70,7 +98,15 @@ const DashboardOverview = () => {
     const [aiAssignText, setAiAssignText] = useState('');
     const [isFetchingAiAssign, setIsFetchingAiAssign] = useState(false);
     const [aiAssignError, setAiAssignError] = useState(null);
+   // --- NEW: State for Sales Chart ---
+   const [salesData, setSalesData] = useState([]);
+   const [isChartLoading, setIsChartLoading] = useState(true);
+   const [chartError, setChartError] = useState(null);
+   // ---------------------------------
 
+   // --- NEW: State for Add Client Modal ---
+   const [isClientModalOpen, setIsClientModalOpen] = useState(false);
+   // -----
     const [isSuggestingTasks, setIsSuggestingTasks] = useState(false);
     const [suggestTasksError, setSuggestTasksError] = useState(null);
     const [suggestTasksSuccess, setSuggestTasksSuccess] = useState('');
@@ -99,6 +135,7 @@ const DashboardOverview = () => {
       // ------------------------
 
       // --- Data Summarization for Prompt ---
+      console.log(clientListData,"clientListData")
       const goalIncome = goalData?.targetIncome?.Valid ? `₹${goalData.targetIncome.Float64.toLocaleString('en-IN')}` : 'not set';
       const goalPeriod = goalData?.targetPeriod?.String || 'not set';
       const totalClients = clientListData.length;
@@ -110,7 +147,7 @@ const DashboardOverview = () => {
 
 
       // Construct the prompt
-      const promptText = ` My current goal is to achieve an income of ${goalIncome} for the period ${goalPeriod}.  My client portfolio overview: ${clientSummary}. My Corrent income ${metrics.commissionThisMonth.toLocaleString('en-IN')} Please break down the goal into weekly sprints and suggest me How many clients should I target this month to ensure I am on track.  How many policies Should I target this month. Strictly esitmate in numbers. Not more than 200 words. Keep the tone formal `;
+      const promptText = `I am a very entry level insurance agent. My current goal is to achieve an income of ${goalIncome} for the period ${goalPeriod}.  My client activity log : ${clientListData}. My Corrent income ${metrics.commissionThisMonth.toLocaleString('en-IN')}. Based on my activity log, suggest what should I do this week and why should I do that this week. In short crisp 50 words.  Also, suggest next plan of action for my existing 5 clients. You can be brutal`;
 
       console.log("Sending AI Assign prompt to Gemini:", promptText);
 
@@ -170,7 +207,7 @@ const DashboardOverview = () => {
         if (!token) { setError("Authentication error: Not logged in."); setIsLoading(false); return; }
 
         const headers = { 'Authorization': `Bearer ${token}` };
-        // const baseUrl = 'http://localhost:8080/api/dashboard'; // Base URL for dashboard APIs
+        const baseUrl = 'http://localhost:8080/api/dashboard'; // Base URL for dashboard APIs
         const baseApiUrl = 'http://localhost:8080/api';
         const fetchDataFor = async (url) => {
           const response = await fetch(url, { headers });
@@ -183,15 +220,15 @@ const DashboardOverview = () => {
       };
 
         // Helper to fetch individual endpoints
-        // const fetchApi = async (endpoint) => {
-        //     const response = await fetch(`${baseUrl}/${endpoint}`, { headers });
-        //     if (!response.ok) {
-        //         let errorMsg = `Error fetching ${endpoint}: ${response.status}`;
-        //         try { const d = await response.json(); errorMsg = d.error || errorMsg; } catch(e){}
-        //         throw new Error(errorMsg);
-        //     }
-        //     return response.json();
-        // };
+        const fetchApi = async (endpoint) => {
+            const response = await fetch(`${baseUrl}/${endpoint}`, { headers });
+            if (!response.ok) {
+                let errorMsg = `Error fetching ${endpoint}: ${response.status}`;
+                try { const d = await response.json(); errorMsg = d.error || errorMsg; } catch(e){}
+                throw new Error(errorMsg);
+            }
+            return response.json();
+        };
 
         try {
           // Fetch all data concurrently
@@ -200,8 +237,11 @@ const DashboardOverview = () => {
               fetchDataFor(`${baseApiUrl}/dashboard/tasks?limit=5`),
               fetchDataFor(`${baseApiUrl}/dashboard/activity?limit=5`),
               fetchDataFor(`${baseApiUrl}/agents/goals`),             // Fetch Goals
-              fetchDataFor(`${baseApiUrl}/agents/my-clients-full-data`) // Fetch Full Client Data
-          ]);
+        
+              fetchDataFor(`${baseApiUrl}/agents/my-clients-full-data`), // Fetch Full Client Data
+              fetchDataFor("http://localhost:8080/api/agents/sales-performance", setSalesData, true, setIsChartLoading),
+
+            ]);
 
           // Process results for standard dashboard sections
           let fetchError = null;
@@ -281,6 +321,49 @@ const DashboardOverview = () => {
           setIsSuggestingTasks(false);
       }
   };
+  const openClientModal = () => setIsClientModalOpen(true);
+    const closeClientModal = () => setIsClientModalOpen(false);
+    const handleClientAdded = () => {
+        closeClientModal();
+        fetchDashboardData('metrics'); // Refresh metrics which might include lead count
+        fetchDashboardData('activity'); // Refresh activity log
+    };
+    // Add handlers for Policy/Task modals if needed from here (though disabled now)
+    // const openPolicyModal = () => alert("Add Policy from Client Profile page");
+    // const openTaskModal = () => alert("Add Task from Client Profile page");
+
+
+    // --- Chart Data and Options ---
+    const chartData = useMemo(() => {
+        const labels = salesData.map(d => d.Month); // Use YYYY-MM from backend
+        const dataPoints = salesData.map(d => d.Count);
+        return {
+            labels,
+            datasets: [
+                {
+                    label: 'Policies Sold per Month',
+                    data: dataPoints,
+                    borderColor: themeColors.brandPurple,
+                    backgroundColor: 'rgba(90, 35, 158, 0.1)', // Lighter purple fill
+                    tension: 0.1,
+                    fill: true,
+                },
+            ],
+        };
+    }, [salesData]);
+
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false, // Allow chart to fill container height
+        plugins: {
+            legend: { display: true, position: 'top' },
+            title: { display: false }, // Title is in the card header
+            tooltip: { mode: 'index', intersect: false },
+        },
+        scales: {
+            y: { beginAtZero: true, ticks: { precision: 0 } }, // Ensure whole numbers for count
+        },
+    };
     // --- Rendering Logic ---
     // if (isLoading) { return <div className="text-center p-10 text-gray-500"><i className="fas fa-spinner fa-spin text-3xl text-[--brand-purple]"></i><p className="mt-2">Loading Dashboard...</p></div>; }
     // // Show general error if loading finished but we have an error message
@@ -296,31 +379,7 @@ if (error && tasks.length === 0 && activities.length === 0) {
     return (
 
         <div className="" style={{'--brand-purple': themeColors.brandPurple}}>
-        <div className="mb-6 p-4 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg shadow-lg text-white">
-                <h2 className="text-xl font-semibold mb-2 flex items-center">
-                    <i className="fas fa-magic mr-2"></i> AI Task Suggestions
-                </h2>
-                <p className="text-sm text-indigo-100 mb-3">Let AI analyze your client portfolio and suggest relevant tasks for the week.</p>
-
-                {/* Display Suggestion Action Feedback */}
-                 <div className="mb-3 text-center">
-                     {suggestTasksSuccess && <p className="text-sm text-green-200 p-2 bg-green-800 bg-opacity-40 rounded">{suggestTasksSuccess}</p>}
-                     {suggestTasksError && <p className="text-sm text-red-100 p-2 bg-red-800 bg-opacity-40 rounded">{suggestTasksError}</p>}
-                 </div>
-
-                <Button
-                    onClick={handleSuggestTasks}
-                    disabled={isSuggestingTasks}
-                    variant="secondary" // Use secondary style for button on dark bg
-                    className="bg-white bg-opacity-20 text-white border-white hover:bg-opacity-30 disabled:bg-opacity-10"
-                >
-                    {isSuggestingTasks ? (
-                        <><i className="fas fa-spinner fa-spin mr-2"></i>Generating...</>
-                    ) : (
-                        <><i className="fas fa-wand-magic-sparkles mr-2"></i>Suggest Weekly Tasks</>
-                    )}
-                </Button>
-            </div>
+      
           <div className="mb-6 p-4 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg shadow-lg text-white">
                 <h2 className="text-xl font-semibold mb-2 flex items-center">
                     <i className="fas fa-brain mr-2"></i> AI Assist- Your Weekly AI Guide
@@ -364,8 +423,8 @@ if (error && tasks.length === 0 && activities.length === 0) {
                     <div> <p className="text-sm font-medium text-gray-500">Upcoming Renewals (30d)</p> <p className="text-2xl font-bold text-gray-800">{metrics.upcomingRenewals30d}</p> </div>
                     <div className={`p-3 rounded-full ${getIconBgColor('yellow')}`}> <i className="fas fa-calendar-check fa-lg"></i> </div>
                 </div>
-                 <a href="https://www.goclientwise.com" className="text-xs text-purple-600 hover:underline mt-2 block">View Renewals</a>
-            </div>
+                <Link to="/dashboard/renewals" className="text-xs text-purple-600 hover:underline mt-2 block">View Renewals</Link>
+                </div>
             <div className="bg-white p-5 rounded-lg shadow border border-gray-100 animate-on-scroll delay-200">
                 <div className="flex items-center justify-between">
                     <div> <p className="text-sm font-medium text-gray-500">Commission (Month)</p> <p className="text-2xl font-bold text-gray-800">₹{metrics.commissionThisMonth.toLocaleString('en-IN')}</p> </div>
@@ -378,7 +437,7 @@ if (error && tasks.length === 0 && activities.length === 0) {
                     <div> <p className="text-sm font-medium text-gray-500">New Leads (Week)</p> <p className="text-2xl font-bold text-gray-800">{metrics.newLeadsThisWeek}</p> </div>
                      <div className={`p-3 rounded-full ${getIconBgColor('blue')}`}> <i className="fas fa-user-plus fa-lg"></i> </div>
                 </div>
-                 <a href="https://www.goclientwise.com" className="text-xs text-purple-600 hover:underline mt-2 block">Manage Leads</a>
+                 <a href="https://www.goclientwise.in"  className="text-xs text-purple-600 hover:underline mt-2 block">Manage Leads</a>
             </div>
 
             {/* Upcoming Tasks Card - Now using fetched data */}
@@ -396,8 +455,8 @@ if (error && tasks.length === 0 && activities.length === 0) {
                         ))}
                     </ul>
                 )}
-                 <a href="https://www.goclientwise.com" className="text-xs text-purple-600 hover:underline mt-4 block text-right">View All Tasks</a>
-            </div>
+                    <Link to="/dashboard/tasks" className="text-xs text-purple-600 hover:underline mt-4 block text-right">View All Tasks</Link>
+                    </div>
 
              {/* Recent Activity Card - Now using fetched data */}
             <div className="bg-white p-5 rounded-lg shadow border border-gray-100 md:col-span-2 lg:col-span-2 animate-on-scroll delay-200">
@@ -418,24 +477,40 @@ if (error && tasks.length === 0 && activities.length === 0) {
                         })}
                     </ul>
                 )}
-                 <a href="https://www.goclientwise.com" className="text-xs text-purple-600 hover:underline mt-4 block text-right">View Full Log</a>
-            </div>
+                    <Link to="/dashboard/activity" className="text-xs text-purple-600 hover:underline mt-4 block text-right">View Full Log</Link>
+                    </div>
 
             {/* Quick Actions Card (Placeholder) */}
             <div className="bg-white p-5 rounded-lg shadow border border-gray-100 lg:col-span-1 xl:col-span-1 animate-on-scroll delay-300">
                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
                  <div className="space-y-2">
-                     <button className="w-full text-left text-sm p-2 rounded bg-purple-50 text-purple-700 hover:bg-purple-100"><i className="fas fa-user-plus w-4 mr-2"></i>Add New Client</button>
-                     <button className="w-full text-left text-sm p-2 rounded bg-purple-50 text-purple-700 hover:bg-purple-100"><i className="fas fa-file-medical w-4 mr-2"></i>Add New Policy</button>
-                     <button className="w-full text-left text-sm p-2 rounded bg-purple-50 text-purple-700 hover:bg-purple-100"><i className="fas fa-tasks w-4 mr-2"></i>Add New Task</button>
+                 <button onClick={openClientModal} className="w-full text-left text-sm p-2 rounded bg-purple-50 text-purple-700 hover:bg-purple-100 focus:outline-none focus:ring-2 focus:ring-purple-300"><i className="fas fa-user-plus w-4 mr-2"></i>Add New Client</button>
+                 <button className="w-full text-left text-sm p-2 rounded bg-purple-50 text-purple-700 hover:bg-purple-100"><a href='/clients'><i className="fas fa-file-medical w-4 mr-2"></i>Add New Polic</a>y</button>
+                     {/* <button className="w-full text-left text-sm p-2 rounded bg-purple-50 text-purple-700 hover:bg-purple-100"><i className="fas fa-tasks w-4 mr-2"></i>Add New Task</button> */}
                  </div>
             </div>
 
              {/* Performance Chart Placeholder */}
-             <div className="bg-white p-5 rounded-lg shadow border border-gray-100 lg:col-span-3 xl:col-span-3 animate-on-scroll delay-400">
-                 <h3 className="text-lg font-semibold text-gray-800 mb-4">Sales Performance (Placeholder)</h3>
-                 <div className="bg-gray-200 h-40 rounded flex items-center justify-center text-gray-500"> Chart Area </div>
-             </div>
+                 <div className="bg-white p-5 rounded-lg shadow border border-gray-100 lg:col-span-3 xl:col-span-3">
+                     <h3 className="text-lg font-semibold text-gray-800 mb-4">Sales Performance (Policies/Month)</h3>
+                     <div className="relative h-64 md:h-72"> {/* Set specific height */}
+                         {isChartLoading ? (
+                             <div className="absolute inset-0 flex items-center justify-center text-gray-500"><i className="fas fa-spinner fa-spin mr-2"></i>Loading Chart...</div>
+                         ) : chartError ? (
+                              <div className="absolute inset-0 flex items-center justify-center text-red-500 text-sm">{chartError}</div>
+                         ) : salesData.length > 0 ? (
+                            <Line options={chartOptions} data={chartData} />
+                         ) : (
+                             <div className="absolute inset-0 flex items-center justify-center text-gray-500 italic">No sales data available for the last 12 months.</div>
+                         )}
+                     </div>
+
+                 </div>
+             <AddClientModal
+                isOpen={isClientModalOpen}
+                onClose={closeClientModal}
+                onClientAdded={handleClientAdded}
+            />
         </div></div>
       );
     };

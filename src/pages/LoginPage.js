@@ -47,7 +47,14 @@ const LoginPage = ({ navigateToLanding, initialMode = 'login', onLoginSuccess })
           <InputField id="email" label="Email Address" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" />
           <InputField id="password" label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
           {!isSignUp && ( <div className="text-right mb-6"> <button type="button" onClick={handleForgotPassword} disabled={isLoading} className="text-sm font-medium text-[--brand-purple] hover:text-[--brand-purple-hover] disabled:opacity-50">Forgot Password?</button> </div> )}
-          <Button type="submit" variant="brand" className="w-full" disabled={isLoading}> {isLoading ? 'Processing...' : (isSignUp ? 'Sign Up' : 'Login')} </Button>
+          <Button
+  type="submit"
+  className="w-full bg-[#5a239e] text-white border-[#5a239e] hover:bg-[#703abc] hover:border-[#703abc]"
+  disabled={isLoading}
+>
+  {isLoading ? 'Processing...' : (isSignUp ? 'Sign Up' : 'Login')}
+</Button>
+
           <div className="mt-6 text-center"> <p className="text-sm text-gray-600"> {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '} <button type="button" onClick={() => { setIsSignUp(!isSignUp); setMessage(''); }} className="font-medium text-[--brand-purple] hover:text-[--brand-purple-hover]"> {isSignUp ? 'Login' : 'Sign Up'} </button> </p> </div>
         </form>
       </div>

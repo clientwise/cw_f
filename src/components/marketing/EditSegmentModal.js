@@ -5,58 +5,62 @@ import InputField from '../common/InputField'; // Adjust path if needed
 // Assume themeColors is available globally or via context/props
 const themeColors = { brandPurple: '#5a239e', brandPurpleHover: '#703abc', red100: '#fee2e2', red700: '#b91c1c', /* ... */ };
 
-const CreateSegmentModal = ({ isOpen, onClose, onSegmentCreated }) => {
+const EditSegmentModal = ({ isOpen, onClose, onSegmentUpdated, segmentData }) => {
+    // State for form fields
     const [name, setName] = useState('');
-    const [criteria, setCriteria] = useState(''); // Simple description for now
+    const [criteria, setCriteria] = useState('');
+
+    // API/UI State
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
 
+    // Pre-fill form when modal opens or segmentData changes
     useEffect(() => {
-        // Reset form when modal opens or closes
-        if (!isOpen) {
-            setName('');
-            setCriteria('');
+        if (isOpen && segmentData) {
+            setName(segmentData.name || '');
+            setCriteria(segmentData.criteria?.String || ''); // Handle NullString
             setError('');
             setIsSubmitting(false);
         }
-    }, [isOpen]);
+    }, [isOpen, segmentData]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!segmentData?.id) { setError("Segment ID missing."); return; }
         if (!name.trim()) { setError('Segment name cannot be empty.'); return; }
+
         setIsSubmitting(true); setError('');
         const token = localStorage.getItem('authToken');
-        if (!token) { setError("Authentication error. Please log in again."); setIsSubmitting(false); return; }
+        if (!token) { setError("Authentication error."); setIsSubmitting(false); return; }
 
         const payload = {
             name: name.trim(),
-            criteria: criteria.trim() || null // Send null if empty
+            criteria: criteria.trim() || null, // Send null if empty
         };
 
-        console.log("Submitting Segment:", payload);
+        console.log(`Updating Segment ${segmentData.id} (API Call):`, payload);
 
         try {
            // --- Actual API Call ---
-           const response = await fetch(`http://localhost:8080/api/marketing/segments`, {
-              method: 'POST',
+           const response = await fetch(`http://localhost:8080/api/marketing/segments/${segmentData.id}`, {
+              method: 'PUT', // Use PUT for update
               headers: {
                   'Authorization': `Bearer ${token}`,
                   'Content-Type': 'application/json'
                },
               body: JSON.stringify(payload)
            });
-           const data = await response.json(); // Attempt to parse JSON response
+           const data = await response.json();
            if (!response.ok) {
-                // Use error message from backend if available
-               throw new Error(data.error || `Failed to create segment (${response.status})`);
+               throw new Error(data.error || `Failed to update segment (${response.status})`);
            }
            // --- End API Call ---
 
-           console.log("Segment created:", data);
-           onSegmentCreated(); // Callback to refresh parent data
+           console.log("Segment updated:", data);
+           onSegmentUpdated(); // Callback to refresh parent data
            onClose(); // Close modal on success
         } catch (err) {
-            console.error("Create Segment Error:", err);
+            console.error("Update Segment Error:", err);
             setError(err.message || "An unknown error occurred.");
         } finally {
             setIsSubmitting(false);
@@ -69,16 +73,19 @@ const CreateSegmentModal = ({ isOpen, onClose, onSegmentCreated }) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-60 backdrop-blur-sm">
             <div className="bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] flex flex-col" style={{'--brand-purple': themeColors.brandPurple}}>
                 <div className="flex justify-between items-center p-4 border-b">
-                    <h2 className="text-lg font-semibold text-[--brand-purple]">Create New Client Segment</h2>
+                    <h2 className="text-lg font-semibold text-[--brand-purple]">Edit Client Segment</h2>
                     <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><i className="fas fa-times fa-lg"></i></button>
                 </div>
                 <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto">
                     {error && <div className="text-sm text-red-700 p-2 bg-red-100 border border-red-200 rounded">{error}</div>}
-                    <InputField id="segment-name" label="Segment Name*" value={name} onChange={e => setName(e.target.value)} required />
+                    {/* Display Segment ID (read-only) */}
+                    <p className="text-xs text-gray-500">Segment ID: {segmentData?.id || 'N/A'}</p>
+
+                    <InputField id="edit-segment-name" label="Segment Name*" value={name} onChange={e => setName(e.target.value)} required />
                     <div>
-                        <label htmlFor="segment-criteria" className="block text-sm font-medium text-gray-700 mb-1">Criteria / Description</label>
+                        <label htmlFor="edit-segment-criteria" className="block text-sm font-medium text-gray-700 mb-1">Criteria / Description</label>
                         <textarea
-                            id="segment-criteria"
+                            id="edit-segment-criteria"
                             rows="4"
                             value={criteria}
                             onChange={e => setCriteria(e.target.value)}
@@ -86,10 +93,10 @@ const CreateSegmentModal = ({ isOpen, onClose, onSegmentCreated }) => {
                             placeholder="Describe the criteria for this segment (e.g., 'Clients with active Health policy, age > 40')."
                         />
                     </div>
-                     <div className="flex justify-end space-x-3 pt-4 border-t">
-                        <Button type="button" variant="outlineSm" onClick={onClose} className="bg-white text-gray-700 border-gray-300 hover:bg-gray-50 px-4 py-2">Cancel</Button>
-                        <Button type="submit" variant="brand" disabled={isSubmitting} className="px-4 py-2">
-                            {isSubmitting ? 'Saving...' : 'Create Segment'}
+                     <div className="flex justify-end space-x-3 pt-4 border-t mt-4">
+                        <Button type="button" variant="outlineSm" onClick={onClose}>Cancel</Button>
+                        <Button type="submit" variant="brand" disabled={isSubmitting}>
+                            {isSubmitting ? 'Saving...' : 'Update Segment'}
                         </Button>
                     </div>
                 </form>
@@ -98,4 +105,4 @@ const CreateSegmentModal = ({ isOpen, onClose, onSegmentCreated }) => {
     );
 };
 
-export default CreateSegmentModal;
+export default EditSegmentModal;

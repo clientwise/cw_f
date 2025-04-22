@@ -9,6 +9,7 @@ import LogInteractionModal from '../components/clients/LogInteractionModal';
 import AddTaskModal from '../components/clients/AddTaskModal';
 import AddPolicyModal from '../components/clients/AddPolicyModal';
 import UploadDocumentModal from '../components/clients/UploadDocumentModal';
+import EditClientModal from '../components/clients/EditClientModal'; // Adjust path if needed
 
 // Assume themeColors is available globally or via context/props
 const themeColors = {
@@ -161,6 +162,8 @@ const ClientProfilePage = () => {
     const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
     const [isPolicyModalOpen, setIsPolicyModalOpen] = useState(false);
     const [isDocumentModalOpen, setIsDocumentModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
 // --- NEW: State for Portal Link ---
 const [portalLink, setPortalLink] = useState('');
 const [isGeneratingLink, setIsGeneratingLink] = useState(false);
@@ -325,7 +328,6 @@ const [linkError, setLinkError] = useState('');
         return { health: healthSum, life: lifeSum, motor: motorSum };
     }, [policies]);
     // --- Action Handlers ---
-    const handleEditClient = () => alert(`Edit client ${clientId} (Not Implemented)`);
     const handleViewPolicy = (policyId) => alert(`View policy ${policyId} (Not Implemented)`);
     const handleAiSummary = (policyId) => alert(`Show AI Summary for policy ${policyId} (Not Implemented)`);
     // const handleProposePolicy = (recId) => alert(`Propose recommended policy ${recId} (Not Implemented)`);
@@ -345,25 +347,85 @@ const [linkError, setLinkError] = useState('');
     const openDocumentModal = () => setIsDocumentModalOpen(true);
     const closeDocumentModal = () => setIsDocumentModalOpen(false);
     const handleDocumentUploaded = () => { console.log("Document uploaded"); fetchData('docs'); };
-
+    const handleCloseEditModal = () => setIsEditModalOpen(false);
+    const handleClientUpdated = () => {
+        setIsEditModalOpen(false); // Close modal
+        fetchData('client'); // Refetch client data to show updates
+        fetchData('estimation'); // Also refetch estimation as profile changed
+    };
 // --- NEW: Generate Portal Link Handler ---
 const handleGeneratePortalLink = async () => {
-    setIsGeneratingLink(true); setLinkError(''); setPortalLink(''); setLinkCopied(false);
+    setIsGeneratingLink(true);
+    setLinkError('');
+    setPortalLink('');
+    setLinkCopied(false);
+
     const token = localStorage.getItem('authToken');
-    if (!token) { setLinkError("Auth error."); setIsGeneratingLink(false); return; }
-    console.log(`Simulating POST /api/clients/${clientId}/generate-portal-link`);
+    if (!token) {
+        setLinkError("Auth error.");
+        setIsGeneratingLink(false);
+        return;
+    }
+
+    //  const clientId = 'your_client_id';  <--  No longer hardcoded
+    const apiUrl = `/api/clients/5/generate-portal-link`; // Construct the API URL
+
     try {
-        // --- Simulation ---
-        await new Promise(resolve => setTimeout(resolve, 600));
-        const generatedToken = `simulated_token_${Date.now()}`;
-        // --- CORRECTED LINE using backticks ---
-        const generatedLink = `${window.location.origin}/client-portal/${generatedToken}`;
-        // --------------------------------------
-        setPortalLink(generatedLink);
-        // --- End Simulation ---
-    } catch (err) { console.error("Generate Link Error:", err); setLinkError(err.message || "Could not generate link."); }
-    finally { setIsGeneratingLink(false); }
+       
+        if (!clientId) {
+            setLinkError("Client ID is missing.");
+            setIsGeneratingLink(false);
+            return;
+        }
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            let errorMessage = "Failed to generate link.";
+            if (response.status === 400) {
+                errorMessage = "Invalid request. Please check the client ID.";
+            } else if (response.status === 401) {
+                errorMessage = "Unauthorized.  Invalid or expired token.";
+            } else if (response.status === 404) {
+                errorMessage = "Client not found.";
+            } else if (response.status === 500) {
+                errorMessage = "Server error. Please try again later.";
+            }
+            const errorData = await response.json();
+            if (errorData && errorData.error) {
+                errorMessage += ` ${errorData.error}`;
+            }
+            setLinkError(errorMessage);
+            setIsGeneratingLink(false);
+            return;
+        }
+
+        const data = await response.json();
+        console.log('API Response:', data);
+
+        if (data && data.portalLink) {
+            setPortalLink(data.portalLink);
+        } else {
+            setLinkError("Invalid response from server: Missing portalLink.");
+        }
+
+
+    } catch (error) {
+        console.error("Generate Link Error:", error);
+        setLinkError("Network error: Could not connect to server.");
+    } finally {
+        setIsGeneratingLink(false);
+    }
 };
+
+const handleEditClient = () => setIsEditModalOpen(true); // Open the modal
+
+
  const handleCopyPortalLink = () => {
     if (!portalLink) return;
     navigator.clipboard.writeText(portalLink)
@@ -576,7 +638,12 @@ const handleGeneratePortalLink = async () => {
             <AddTaskModal isOpen={isTaskModalOpen} onClose={closeTaskModal} clientId={clientId} onTaskAdded={handleTaskAdded} />
             <AddPolicyModal isOpen={isPolicyModalOpen} onClose={closePolicyModal} clientId={clientId} onPolicyAdded={handlePolicyAdded} />
             <UploadDocumentModal isOpen={isDocumentModalOpen} onClose={closeDocumentModal} clientId={clientId} onDocumentUploaded={handleDocumentUploaded} />
-
+            <EditClientModal
+                isOpen={isEditModalOpen}
+                onClose={handleCloseEditModal}
+                onClientUpdated={handleClientUpdated}
+                clientData={clientData} // Pass current client data to pre-fill form
+            />
         </div>
     );
 };

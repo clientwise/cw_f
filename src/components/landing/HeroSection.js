@@ -31,7 +31,7 @@ const HeroSection = ({ navigateToLogin }) => (
             {/* CTA Buttons */}
              <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 animate-on-scroll delay-400">
                 <Button onClick={() => navigateToLogin('signup')} variant="primary" className="w-full sm:w-auto"> Sign Up Free </Button>
-                <Button onClick={() => navigateToLogin('login')} variant="secondary" className="w-full sm:w-auto"> Login </Button>
+                <Button onClick={() => navigateToLogin('login')} variant="primary" className="w-full sm:w-auto"> Login </Button>
             </div>
             {/* App Badges */}
              <div className="mt-10 flex justify-center items-center space-x-4 animate-on-scroll delay-500">

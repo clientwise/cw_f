@@ -18,7 +18,7 @@ const DashboardShell = ({ userInfo, onLogout }) => {
         { name: 'Help & Support', icon: 'fas fa-life-ring' },
         { name: 'Notice Board', icon: 'fas fa-clipboard-list' },
         { name: 'Pricing', icon: 'fas fa-clipboard-list' },
-        { name: 'Grow', icon: 'fas fa-clipboard-list' },
+        // { name: 'Grow', icon: 'fas fa-clipboard-list' },
         { name: 'My Profile', href: '/dashboard/profile' },
 
     ];
@@ -33,7 +33,7 @@ const DashboardShell = ({ userInfo, onLogout }) => {
             case 'Help & Support': return <HelpSupportPage />;
             case 'Notice Board': return <NoticeBoardPage />;
             case 'Pricing': return <PricingPage />;
-            case 'Grow':  return <GrowPage />;
+            // case 'Grow':  return <GrowPage />;
             case 'My Profile' : return <AgentProfilePage />;
             case 'Dashboard':
             default:

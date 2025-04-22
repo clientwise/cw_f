@@ -158,10 +158,10 @@ const GenerateProposalModal = ({ isOpen, onClose, product }) => {
         setShowClientList(false);
     };
 
-    // Handle opening the "Add New Client" flow (placeholder)
-    const handleAddNewClient = () => {
-         alert("Functionality to add a new client from here is not implemented yet. Please add the client from the main 'Clients' page first.");
-    };
+    // // Handle opening the "Add New Client" flow (placeholder)
+    // const handleAddNewClient = () => {
+    //      alert("Functionality to add a new client from here is not implemented yet. Please add the client from the main 'Clients' page first.");
+    // };
 
     // Handle proposal submission
     const handleSubmit = async (event) => {
@@ -241,9 +241,9 @@ const GenerateProposalModal = ({ isOpen, onClose, product }) => {
                                  onFocus={() => setShowClientList(true)}
                                  className="flex-grow px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[--brand-purple] focus:border-[--brand-purple] sm:text-sm"
                              />
-                             <Button type="button" onClick={handleAddNewClient} variant="outlineSm" className="flex-shrink-0 text-xs">
+                             {/* <Button type="button" onClick={handleAddNewClient} variant="outlineSm" className="flex-shrink-0 text-xs">
                                  <i className="fas fa-plus mr-1"></i> New Client
-                             </Button>
+                             </Button> */}
                          </div>
                          {/* Search Results Dropdown - **UPDATED TO USE getStringValue** */}
                          {showClientList && (
@@ -284,8 +284,8 @@ const GenerateProposalModal = ({ isOpen, onClose, product }) => {
                                  <div><dt className="text-gray-500">Phone:</dt><dd className="text-gray-700 font-medium">{getStringValue(selectedClient.phone) || 'N/A'}</dd></div>
                                  <div className="sm:col-span-2"><dt className="text-gray-500">Address:</dt><dd className="text-gray-700 font-medium">{getStringValue(selectedClient.address) || 'N/A'}</dd></div>
                                  {/* Assuming Salary/Job Type might also be nullable or not present */}
-                                 <div><dt className="text-gray-500">Salary:</dt><dd className="text-gray-700 font-medium italic">{getStringValue(selectedClient.salary) || 'N/A'}</dd></div>
-                                 <div><dt className="text-gray-500">Job Type:</dt><dd className="text-gray-700 font-medium italic">{getStringValue(selectedClient.jobType) || 'N/A'}</dd></div>
+                                 <div><dt className="text-gray-500">Salary:</dt><dd className="text-gray-700 font-medium italic">{getStringValue(selectedClient.income) || 'N/A'}</dd></div>
+                                 <div><dt className="text-gray-500">Job Type:</dt><dd className="text-gray-700 font-medium italic">{getStringValue(selectedClient.jobProfile) || 'N/A'}</dd></div>
                              </dl>
                         </div>
                     )}

@@ -46,7 +46,7 @@ const DashboardShell = ({ userInfo, onLogout }) => {
         { name: 'Help & Support', path: '/dashboard/support', icon: 'fas fa-life-ring' },
         { name: 'Notice Board', path: '/dashboard/notices', icon: 'fas fa-clipboard-list' },
         { name: 'Pricing', path: '/dashboard/pricing', icon: 'fas fa-tags' },
-        { name: 'Grow', path: '/dashboard/grow', icon: 'fas fa-seedling' },
+        // { name: 'Grow', path: '/dashboard/grow', icon: 'fas fa-seedling' },
         // --- NEW Link ---
         { name: 'My Profile', path: '/dashboard/profile', icon: 'fas fa-user-circle' },
             ];

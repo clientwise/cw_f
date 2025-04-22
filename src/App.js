@@ -26,9 +26,11 @@ import FAQPage from './pages/FAQPage';
 import TrainingMaterialsPage from './pages/TrainingMaterialsPage';
 import ClientPortalPage from './pages/ClientPortalPage';
 import PricingPage from './pages/PricingPage';
-import GrowPage from './pages/GrowPage';
+// import GrowPage from './pages/GrowPage';
 import AgentProfilePage from './pages/AgentProfilePage';
-
+import RenewalsPage from './pages/RenewalsPage';
+import AllTasksPage from './pages/AllTasksPage';
+import ActivityLogPage from './pages/ActivityLogPage';
 // ------------------------------------------
 // Import PasswordResetPage if you create it
 // import PasswordResetPage from './pages/PasswordResetPage';
@@ -166,7 +168,7 @@ export default function App() {
                             {/* Updated Help/Support Route */}
                             <Route path="support" element={<HelpSupportPage />} />
 
-                            <Route path="grow" element={<GrowPage />} />
+                            {/* <Route path="grow" element={<GrowPage />} /> */}
 
                             <Route path="pricing" element={<PricingPage />} />
                             {/* --- NEW: Nested routes for Help section --- */}
@@ -175,7 +177,9 @@ export default function App() {
                             {/* ------------------------------------------ */}
                             <Route path="notices" element={<NoticeBoardPage />} />
                             <Route path="profile" element={<AgentProfilePage />} />
-
+                            <Route path="renewals" element={<RenewalsPage />} />
+                            <Route path="tasks" element={<AllTasksPage />} />
+                            <Route path="activity" element={<ActivityLogPage />} />
                             {/* Fallback INSIDE dashboard to redirect to overview */}
                             <Route path="*" element={<Navigate to="/dashboard" replace />} />
                         </Route>

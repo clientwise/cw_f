@@ -9,15 +9,13 @@ const themeColors = {
 export const Button = ({ children, onClick, type = 'button', variant = 'brand', className = '', disabled = false, href }) => {
   const baseClasses = "inline-flex items-center justify-center px-6 py-2.5 border rounded-lg font-semibold text-sm transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50";
   let variantClasses = '';
-
-  // Define styles using themeColors
   const styles = {
-      primary: `bg-[${themeColors.brandBeige}] text-[${themeColors.brandPurple}] border-[${themeColors.brandBeige}] hover:bg-[${themeColors.brandBeigeHover}] hover:border-[${themeColors.brandBeigeHover}] focus:ring-[${themeColors.brandPurple}]`,
-      secondary: `bg-transparent text-[${themeColors.brandBeige}] border-[${themeColors.brandBeige}] hover:bg-white/10 hover:text-[${themeColors.brandBeigeHover}] hover:border-[${themeColors.brandBeigeHover}] focus:ring-[${themeColors.brandBeige}]`,
-      header: `bg-[${themeColors.brandBeige}] text-[${themeColors.brandPurple}] border-[${themeColors.brandBeige}] hover:bg-[${themeColors.brandBeigeHover}] hover:border-[${themeColors.brandBeigeHover}] focus:ring-[${themeColors.brandPurple}] px-4 py-1.5 text-xs font-medium`,
-      brand: `bg-[${themeColors.brandPurple}] text-white border-[${themeColors.brandPurple}] hover:bg-[${themeColors.brandPurpleHover}] hover:border-[${themeColors.brandPurpleHover}] focus:ring-[${themeColors.brandPurple}]`,
-      outlineSm: `bg-white text-[${themeColors.darkGray}] border-gray-300 hover:bg-gray-50 px-3 py-1.5 text-xs`,
-  };
+    primary: `bg-[${themeColors.brandPurple}] text-white border-[${themeColors.brandPurple}] hover:bg-[${themeColors.brandPurpleHover}] hover:border-[${themeColors.brandPurpleHover}] focus:ring-[${themeColors.brandPurple}]`,
+    secondary: `bg-transparent text-[${themeColors.brandBeige}] border-[${themeColors.brandBeige}] hover:bg-white/10 hover:text-[${themeColors.brandBeigeHover}] hover:border-[${themeColors.brandBeigeHover}] focus:ring-[${themeColors.brandBeige}]`,
+    header: `bg-[${themeColors.brandBeige}] text-[${themeColors.brandPurple}] border-[${themeColors.brandBeige}] hover:bg-[${themeColors.brandBeigeHover}] hover:border-[${themeColors.brandBeigeHover}] focus:ring-[${themeColors.brandPurple}] px-4 py-1.5 text-xs font-medium`,
+    brand: `bg-[${themeColors.brandPurple}] text-white border-[${themeColors.brandPurple}] hover:bg-[${themeColors.brandPurpleHover}] hover:border-[${themeColors.brandPurpleHover}] focus:ring-[${themeColors.brandPurple}]`,
+    outlineSm: `bg-white text-[${themeColors.darkGray}] border-gray-300 hover:bg-gray-50 px-3 py-1.5 text-xs`,
+};
 
   switch (variant) {
     case 'primary': variantClasses = styles.primary; break;
