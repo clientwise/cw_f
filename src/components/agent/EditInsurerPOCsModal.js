@@ -73,7 +73,7 @@ const EditInsurerPOCsModal = ({ isOpen, onClose, onPocsUpdated, currentPocs = []
         console.log("Updating Insurer POCs (API Call):", payload);
 
         try {
-           const response = await fetch(`http://localhost:8080/api/agents/insurer-pocs`, {
+           const response = await fetch(`https://api.goclientwise.com/api/agents/insurer-pocs`, {
               method: 'PUT',
               headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
               body: JSON.stringify(payload)

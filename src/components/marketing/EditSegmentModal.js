@@ -42,7 +42,7 @@ const EditSegmentModal = ({ isOpen, onClose, onSegmentUpdated, segmentData }) =>
 
         try {
            // --- Actual API Call ---
-           const response = await fetch(`http://localhost:8080/api/marketing/segments/${segmentData.id}`, {
+           const response = await fetch(`https://api.goclientwise.com/api/marketing/segments/${segmentData.id}`, {
               method: 'PUT', // Use PUT for update
               headers: {
                   'Authorization': `Bearer ${token}`,

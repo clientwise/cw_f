@@ -49,7 +49,7 @@ const CreateCampaignModal = ({ isOpen, onClose, onCampaignCreated, segments = []
         console.log("Submitting Campaign (Simulation):", payload);
         // TODO: Replace with actual API call: POST /api/marketing/campaigns
         try {
-           const response = await fetch(`http://localhost:8080/api/marketing/campaigns`, {
+           const response = await fetch(`https://api.goclientwise.com/api/marketing/campaigns`, {
               method: 'POST',
               headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
               body: JSON.stringify(payload)

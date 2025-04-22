@@ -90,7 +90,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }) => {
         console.log("Submitting Product (API Call):", payload);
 
         try {
-           const response = await fetch(`http://localhost:8080/api/products`, {
+           const response = await fetch(`https://api.goclientwise.com/api/products`, {
               method: 'POST',
               headers: {
                   'Authorization': `Bearer ${token}`,

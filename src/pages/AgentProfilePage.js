@@ -47,8 +47,8 @@ const AgentProfilePage = () => {
         if (!token) { setError("Authentication error."); setIsLoading(false); return; }
 
         const headers = { 'Authorization': `Bearer ${token}` };
-        const profileUrl = `http://localhost:8080/api/agents/profile`;
-        const goalUrl = `http://localhost:8080/api/agents/goals`;
+        const profileUrl = `https://api.goclientwise.com/api/agents/profile`;
+        const goalUrl = `https://api.goclientwise.com/api/agents/goals`;
 
         try {
             // Set loading true only if it's not already loading (prevent flicker on refresh)

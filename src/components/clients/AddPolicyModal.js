@@ -61,7 +61,7 @@ const AddPolicyModal = ({ isOpen, onClose, clientId, onPolicyAdded }) => {
                 // }
 
                 try {
-                    const response = await fetch('http://localhost:8080/api/product-list', {
+                    const response = await fetch('https://api.goclientwise.com/api/product-list', {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -134,7 +134,7 @@ const AddPolicyModal = ({ isOpen, onClose, clientId, onPolicyAdded }) => {
         console.log("Submitting Policy Payload:", payload);
 
         try {
-           const response = await fetch(`http://localhost:8080/api/clients/${clientId}/policies`, { // Ensure clientId is passed correctly as prop
+           const response = await fetch(`https://api.goclientwise.com/api/clients/${clientId}/policies`, { // Ensure clientId is passed correctly as prop
                method: 'POST',
                headers: {
                    'Authorization': `Bearer ${token}`,
