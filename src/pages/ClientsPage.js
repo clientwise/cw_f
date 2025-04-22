@@ -47,7 +47,7 @@ const ClientsPage = () => {
         if (searchTerm) params.append('search', searchTerm);
         // Add pagination params later if needed: params.append('limit', '50'); params.append('offset', '0');
 
-        const url = `http://localhost:8080/api/clients?${params.toString()}`;
+        const url = `https://api.goclientwise.com/api/clients?${params.toString()}`;
         try {
             const response = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
             if (!response.ok) { let e = `Err: ${response.status}`; try { const d = await response.json(); e = d.error || e; } catch {} throw new Error(e); }

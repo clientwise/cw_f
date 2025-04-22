@@ -180,7 +180,7 @@ const [linkError, setLinkError] = useState('');
         if (!token) { setError("Authentication error: Not logged in."); setIsLoading(false); return; }
 
         const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
-        const baseUrl = 'http://localhost:8080/api/clients';
+        const baseUrl = 'https://api.goclientwise.com/api/clients';
 
         const fetchApi = async (url, setter, isList = false) => {
              try {

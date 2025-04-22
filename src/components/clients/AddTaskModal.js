@@ -66,7 +66,7 @@ const AddTaskModal = ({ isOpen, onClose, clientId, onTaskAdded }) => {
 
         try {
            // Make the API call to the backend endpoint
-           const response = await fetch(`http://localhost:8080/api/clients/${clientId}/tasks`, {
+           const response = await fetch(`https://api.goclientwise.com/api/clients/${clientId}/tasks`, {
               method: 'POST',
               headers: {
                   'Authorization': `Bearer ${token}`, // Include JWT token
