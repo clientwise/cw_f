@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from '../common/Button'; // Adjust path if needed
-import { AppStoreBadge, GooglePlayBadge } from '../common/AppBadge'; // Adjust path if needed
-
+// import { AppStoreBadge, GooglePlayBadge } from '../common/AppBadge'; // Adjust path if needed
+import { Link } from 'react-router-dom';
 // Assume themeColors is available globally or via context/props
 const themeColors = { brandPurple: '#5a239e', brandBeige: '#f6eeb4', brandBeigeHover: '#fbf8e9', brandPurpleHover: '#703abc', brandPurpleDeep: '#3b0770' };
 
@@ -30,14 +30,14 @@ AI Powered Client and Agency Management software
             </div>
             {/* CTA Buttons */}
              <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 animate-on-scroll delay-400">
-                <Button onClick={() => navigateToLogin('signup')} variant="primary" className="w-full sm:w-auto"> Sign Up Free </Button>
-                <Button onClick={() => navigateToLogin('login')} variant="primary" className="w-full sm:w-auto"> Login </Button>
+                <Link to="login"> <Button variant="primary" className="w-full sm:w-auto"> Sign Up Free </Button></Link>
+                <Link to="login">  <Button  variant="primary" className="w-full sm:w-auto"> Login </Button></Link>
             </div>
             {/* App Badges */}
-             <div className="mt-10 flex justify-center items-center space-x-4 animate-on-scroll delay-500">
+             {/* <div className="mt-10 flex justify-center items-center space-x-4 animate-on-scroll delay-500">
                  <a href="#your-ios-app-link" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity"> <AppStoreBadge className="h-10" /> </a>
                  <a href="#your-android-app-link" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity"> <GooglePlayBadge className="h-10" /> </a>
-             </div>
+             </div> */}
         </div>
     </section>
 );

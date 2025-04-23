@@ -31,6 +31,24 @@ import AgentProfilePage from './pages/AgentProfilePage';
 import RenewalsPage from './pages/RenewalsPage';
 import AllTasksPage from './pages/AllTasksPage';
 import ActivityLogPage from './pages/ActivityLogPage';
+
+
+// --- NEW: Import Static Pages ---
+import TermsPage from './pages/TermsPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import DisclaimerPage from './pages/DisclaimerPage';
+import AboutUsPage from './pages/AboutUsPage';
+import WhyClientWisePage from './pages/WhyClientWisePage';
+import BlogHomePage from './pages/BlogHomePage';
+import BlogArticle1Page from './pages/BlogArticle1Page'; // Example Article 1
+import BlogArticle2Page from './pages/BlogArticle2Page'; // Example Article 2
+import AgencyPartnershipPage from './pages/AgencyPartnershipPage';
+import SalesPartnershipPage from './pages/SalesPartnershipPage';
+import InsurerPartnershipPage from './pages/InsurerPartnershipPage';
+import HowItWorksAgentsPage from './pages/HowItWorksAgentsPage';
+import HowItWorksAgenciesPage from './pages/HowItWorksAgenciesPage';
+import FeaturesPage from './pages/FeaturesPage';
+// -----------
 // ------------------------------------------
 // Import PasswordResetPage if you create it
 // import PasswordResetPage from './pages/PasswordResetPage';
@@ -151,7 +169,23 @@ export default function App() {
                     <Route path="/client-portal/:token" element={<ClientPortalPage />} />
 
                     {/* <Route path="/reset-password" element={<PasswordResetPage />} /> */}
+                    <Route path="/terms-and-conditions" element={<TermsPage />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+                    <Route path="/disclaimer" element={<DisclaimerPage />} />
+                    <Route path="/about-us" element={<AboutUsPage />} />
+                    <Route path="/why-clientwise" element={<WhyClientWisePage />} />
+                    <Route path="/blog" element={<BlogHomePage />} />
+                    <Route path="/blog/crm-productivity-boost" element={<BlogArticle1Page />} /> {/* Example Slug */}
+                    <Route path="/blog/needs-analysis-importance" element={<BlogArticle2Page />} /> {/* Example Slug */}
+                    {/* Add more blog routes as needed */}
+                    <Route path="/partners/agencies" element={<AgencyPartnershipPage />} />
+                    <Route path="/partners/sales" element={<SalesPartnershipPage />} />
+                    <Route path="/partners/insurers" element={<InsurerPartnershipPage />} />
+                    {/* -------------------------------- */}
+                    <Route path="/features" element={<FeaturesPage />} />
 
+                    <Route path="/for-agencies" element={<HowItWorksAgenciesPage />} />
+                    <Route path="/for-agents" element={<HowItWorksAgentsPage/>} />
 
                     {/* Protected Dashboard Routes */}
                     <Route path="/dashboard" element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>

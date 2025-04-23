@@ -14,7 +14,7 @@ const PricingSection = () => (
                 <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-200 flex flex-col h-full animate-on-scroll delay-200 transform transition duration-300 hover:scale-[1.03] hover:shadow-xl">
                     <h3 className="text-[--brand-purple] text-xl font-semibold mb-4" style={{'--brand-purple': themeColors.brandPurple}}>For Individual Agents</h3>
                     <p className="text-4xl font-bold mb-2 text-gray-800">Free</p>
-                    <p className="text-sm text-gray-500 mb-6">for life</p>
+                    <p className="text-sm text-gray-500 mb-6">for life*</p>
                     <ul className="space-y-3 text-sm text-gray-600 text-left mb-8 flex-grow">
                         <li className="flex items-center"><i className="fas fa-check text-green-500 mr-2 w-4"></i> All core CRM features</li>
                         <li className="flex items-center"><i className="fas fa-check text-green-500 mr-2 w-4"></i> AI Sales Assistant (basic)</li>

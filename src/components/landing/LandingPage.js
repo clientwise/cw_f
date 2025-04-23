@@ -10,7 +10,7 @@ import WhyClientWiseSection from '../components/landing/WhyClientWiseSection';
 import CommandCenterSection from '../components/landing/CommandCenterSection';
 import FeaturesSection from '../components/landing/FeaturesSection';
 import HowItWorksSection from '../components/landing/HowItWorksSection';
-import TestimonialsSection from '../components/landing/TestimonialsSection';
+// import TestimonialsSection from '../components/landing/TestimonialsSection';
 import PricingSection from '../components/landing/PricingSection';
 // import DownloadAppSection from '../components/landing/DownloadAppSection';
 import FinalCTASection from '../components/landing/FinalCTASection';
@@ -30,7 +30,7 @@ const LandingPage = ({ navigateToLogin }) => {
                 <CommandCenterSection />
                 <FeaturesSection />
                 <HowItWorksSection />
-                <TestimonialsSection />
+                {/* <TestimonialsSection /> */}
                 <PricingSection />
                 {/* <DownloadAppSection /> */}
                 <FinalCTASection navigateToLogin={navigateToLogin} />
