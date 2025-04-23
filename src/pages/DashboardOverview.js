@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback ,useMemo} from 'react';
 // Assuming Button is imported if needed for Quick Actions later
-import Button from '../components/common/Button';
+// import Button from '../components/common/Button';
 import { Link } from 'react-router-dom'; // Import Link
 import AddClientModal from '../components/clients/AddClientModal'; // Import Add Client Modal
 
@@ -107,9 +107,9 @@ const DashboardOverview = () => {
    // --- NEW: State for Add Client Modal ---
    const [isClientModalOpen, setIsClientModalOpen] = useState(false);
    // -----
-    const [isSuggestingTasks, setIsSuggestingTasks] = useState(false);
-    const [suggestTasksError, setSuggestTasksError] = useState(null);
-    const [suggestTasksSuccess, setSuggestTasksSuccess] = useState('');
+    // const [isSuggestingTasks, setIsSuggestingTasks] = useState(false);
+    // const [suggestTasksError, setSuggestTasksError] = useState(null);
+    // const [suggestTasksSuccess, setSuggestTasksSuccess] = useState('');
     // ---------------------------------------------
     // Fetch all dashboard data on component mount
 
@@ -142,14 +142,14 @@ const DashboardOverview = () => {
       const leadCount = clientListData.filter(c => c.client.status?.toLowerCase() === 'lead').length;
       const activeCount = clientListData.filter(c => c.client.status?.toLowerCase() === 'active').length;
       // Basic summary - more detail could be added (avg income, top category etc.)
-      const clientSummary = `${totalClients} total clients (${leadCount} leads, ${activeCount} active).`;
+    //   const clientSummary = `${totalClients} total clients (${leadCount} leads, ${activeCount} active).`;
       // --- End Summarization ---
 
 
       // Construct the prompt
       const promptText = `I am a very entry level insurance agent. My current goal is to achieve an income of ${goalIncome} for the period ${goalPeriod}.  My client activity log : ${clientListData}. My Corrent income ${metrics.commissionThisMonth.toLocaleString('en-IN')}. Based on my activity log, suggest what should I do this week and why should I do that this week. In short crisp 50 words.  Also, suggest next plan of action for my existing 5 clients. You can be brutal`;
 
-      console.log("Sending AI Assign prompt to Gemini:", promptText);
+    //   console.log("Sending AI Assign prompt to Gemini:", promptText);
 
       const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GOOGLE_AI_API_KEY}`;
       const requestBody = {
@@ -172,7 +172,7 @@ const DashboardOverview = () => {
           }
 
           const data = await response.json();
-          console.log("AI Assign Gemini Response:", data);
+        //   console.log("AI Assign Gemini Response:", data);
 
           // Extract text
           const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
@@ -184,7 +184,7 @@ const DashboardOverview = () => {
           }
 
       } catch (err) {
-          console.error("AI Assign Fetch Error:", err);
+        //   console.error("AI Assign Fetch Error:", err);
           setAiAssignError(err.message || "Failed to get AI assignment suggestion.");
       } finally {
           setIsFetchingAiAssign(false);
@@ -219,16 +219,16 @@ const DashboardOverview = () => {
           return response.json();
       };
 
-        // Helper to fetch individual endpoints
-        const fetchApi = async (endpoint) => {
-            const response = await fetch(`${baseUrl}/${endpoint}`, { headers });
-            if (!response.ok) {
-                let errorMsg = `Error fetching ${endpoint}: ${response.status}`;
-                try { const d = await response.json(); errorMsg = d.error || errorMsg; } catch(e){}
-                throw new Error(errorMsg);
-            }
-            return response.json();
-        };
+        // // Helper to fetch individual endpoints
+        // const fetchApi = async (endpoint) => {
+        //     const response = await fetch(`${baseUrl}/${endpoint}`, { headers });
+        //     if (!response.ok) {
+        //         let errorMsg = `Error fetching ${endpoint}: ${response.status}`;
+        //         try { const d = await response.json(); errorMsg = d.error || errorMsg; } catch(e){}
+        //         throw new Error(errorMsg);
+        //     }
+        //     return response.json();
+        // };
 
         try {
           // Fetch all data concurrently
@@ -297,34 +297,34 @@ const DashboardOverview = () => {
   }, [fetchDashboardData]);
    
 
-    const handleSuggestTasks = async () => {
-      setIsSuggestingTasks(true);
-      setSuggestTasksError(null);
-      setSuggestTasksSuccess('');
-      const token = localStorage.getItem('authToken');
-      if (!token) { setSuggestTasksError("Authentication error."); setIsSuggestingTasks(false); return; }
+//     const handleSuggestTasks = async () => {
+//       setIsSuggestingTasks(true);
+//       setSuggestTasksError(null);
+//       setSuggestTasksSuccess('');
+//       const token = localStorage.getItem('authToken');
+//       if (!token) { setSuggestTasksError("Authentication error."); setIsSuggestingTasks(false); return; }
 
-      console.log("Requesting AI task suggestions...");
+//       console.log("Requesting AI task suggestions...");
 
-      try {
-          const response = await fetch(`https://api.goclientwise.com/api/agents/suggest-tasks`, {
-              method: 'POST',
-              headers: { 'Authorization': `Bearer ${token}` },
-          });
-          const result = await response.json();
-          if (!response.ok) { throw new Error(result.error || `Failed to get suggestions (${response.status})`); }
+//       try {
+//           const response = await fetch(`https://api.goclientwise.com/api/agents/suggest-tasks`, {
+//               method: 'POST',
+//               headers: { 'Authorization': `Bearer ${token}` },
+//           });
+//           const result = await response.json();
+//           if (!response.ok) { throw new Error(result.error || `Failed to get suggestions (${response.status})`); }
 
-          setSuggestTasksSuccess(result.message || "AI tasks suggested successfully!");
-          // Refresh the task list displayed on the dashboard
-          fetchDashboardData('tasks');
+//           setSuggestTasksSuccess(result.message || "AI tasks suggested successfully!");
+//           // Refresh the task list displayed on the dashboard
+//           fetchDashboardData('tasks');
 
-      } catch (err) {
-          console.error("Suggest Tasks Error:", err);
-          setSuggestTasksError(err.message || "An error occurred while suggesting tasks.");
-      } finally {
-          setIsSuggestingTasks(false);
-      }
-  };
+//       } catch (err) {
+//           console.error("Suggest Tasks Error:", err);
+//           setSuggestTasksError(err.message || "An error occurred while suggesting tasks.");
+//       } finally {
+//           setIsSuggestingTasks(false);
+//       }
+//   };
   const openClientModal = () => setIsClientModalOpen(true);
     const closeClientModal = () => setIsClientModalOpen(false);
     const handleClientAdded = () => {

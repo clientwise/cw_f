@@ -9,7 +9,7 @@ const themeColors = { /* ... */ };
 const formatDate = (dateString) => { /* ... */ };
 const getCampaignStatusClass = (status) => { /* ... */ };
 const getTemplateIcon = (type) => { /* ... */ };
-const getContentIcon = (type) => { /* ... */ };
+// const getContentIcon = (type) => { /* ... */ };
 
 const MarketingPage = () => {
     // State for data lists

@@ -7,7 +7,7 @@ const formatDate = (dateString) => { /* ... */ }; // Ensure it handles time
 const getActivityIcon = (activityType) => { /* ... */ }; // Reuse from dashboard
 
 // Reusing Pagination Component from AllTasksPage (or import if separate)
-const Pagination = ({ currentPage, totalPages, onPageChange }) => { /* ... */ };
+// const Pagination = ({ currentPage, totalPages, onPageChange }) => { /* ... */ };
 
 const ActivityLogPage = () => {
     const [activities, setActivities] = useState([]);
