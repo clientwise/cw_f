@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useOutletContext } from 'react-router-dom'; // Import useOutletContext
 import Button from '../components/common/Button'; // Adjust path if needed
 import AddClientModal from '../components/clients/AddClientModal'; // Adjust path if needed
+import BulkClientUploadModal from '../components/clients/BulkClientUploadModal'; // NEW: Import Bulk Upload Modal
 
 // Assume themeColors and helper functions are defined or imported
 const themeColors = { /* ... */ };
@@ -24,7 +25,12 @@ const ClientsPage = () => {
     const [onboardingLink, setOnboardingLink] = useState('');
     const [linkCopied, setLinkCopied] = useState(false);
 
-    // Construct onboarding link when userInfo is available
+
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [isBulkUploadModalOpen, setIsBulkUploadModalOpen] = useState(false); // NEW
+
+    // Construct onboardi
+    // ng link when userInfo is available
     useEffect(() => {
         if (userInfo?.userId) {
             // Construct the base URL carefully
@@ -61,10 +67,19 @@ const ClientsPage = () => {
         fetchClients();
     }, [fetchClients]);
 
+
     // Modal Handlers
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
     const handleClientAdded = () => { closeModal(); fetchClients(); }; // Refresh list after adding
+
+
+    const openBulkUploadModal = () => setIsBulkUploadModalOpen(true);
+    const closeBulkUploadModal = () => setIsBulkUploadModalOpen(false);
+    const handleUploadComplete = () => {
+        // Don't close modal automatically, user might want to see results/errors
+        fetchClients(); // Refresh client list in the background
+    };
 
     // --- Onboarding Link Sharing Handlers ---
     const handleCopyLink = () => {
@@ -207,7 +222,11 @@ const ClientsPage = () => {
 
             {/* Add Client Modal */}
             <AddClientModal isOpen={isModalOpen} onClose={closeModal} onClientAdded={handleClientAdded} />
-
+            <BulkClientUploadModal
+                isOpen={isBulkUploadModalOpen}
+                onClose={closeBulkUploadModal}
+                onUploadComplete={handleUploadComplete}
+            />
         </div>
     );
 };
