@@ -12,7 +12,7 @@ import FeaturesSection from '../components/landing/FeaturesSection';
 import HowItWorksSection from '../components/landing/HowItWorksSection';
 import TestimonialsSection from '../components/landing/TestimonialsSection';
 import PricingSection from '../components/landing/PricingSection';
-import DownloadAppSection from '../components/landing/DownloadAppSection';
+// import DownloadAppSection from '../components/landing/DownloadAppSection';
 import FinalCTASection from '../components/landing/FinalCTASection';
 
 // This component now acts as a container for all actual landing page sections
@@ -32,7 +32,7 @@ const LandingPage = ({ navigateToLogin }) => {
                 <HowItWorksSection />
                 <TestimonialsSection />
                 <PricingSection />
-                <DownloadAppSection />
+                {/* <DownloadAppSection /> */}
                 <FinalCTASection navigateToLogin={navigateToLogin} />
             </main>
             {/* Render the actual Footer component */}

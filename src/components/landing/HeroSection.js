@@ -8,11 +8,11 @@ const themeColors = { brandPurple: '#5a239e', brandBeige: '#f6eeb4', brandBeigeH
 const HeroSection = ({ navigateToLogin }) => (
     <section className="text-center py-24 lg:py-32" style={{ background: `linear-gradient(to bottom right, ${themeColors.brandPurple}, ${themeColors.brandPurpleDeep})` }}>
          <div className="container mx-auto px-6 relative z-10" style={{'--brand-purple': themeColors.brandPurple, '--brand-beige': themeColors.brandBeige, '--brand-beige-hover': themeColors.brandBeigeHover}}>
-            <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-[--brand-beige] mb-6 leading-tight animate-on-scroll">
-                Increasing Conversions <br className="hidden md:block" /> for Insurance
+            <h1 className="font-serif text-5xl md:text-6xl lg:text-6xl font-bold text-[--brand-beige] mb-6 leading-tight animate-on-scroll">
+                Increase Insurance Sales  <br className="hidden md:block" />with AI Agents
             </h1>
             <p className="text-xl md:text-2xl text-[--brand-beige] opacity-90 mb-4 max-w-3xl mx-auto animate-on-scroll delay-100">
-                ClientWise enables agents and agencies to keep track of clients using AI.
+AI Powered Client and Agency Management software
             </p>
             {/* Feature Chips */}
             <div className="flex flex-wrap justify-center items-center gap-2 md:gap-3 mb-10 max-w-4xl mx-auto animate-on-scroll delay-200">
