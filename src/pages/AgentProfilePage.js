@@ -70,7 +70,7 @@ const AgentProfilePage = () => {
 
         } catch (err) { console.error("Failed fetch agent data:", err); setError(err.message || "Could not load data."); setAgentProfileData(null); setAgentGoal(null); }
         finally { setIsLoading(false); } // Stop loading after all fetches attempt
-    }, [isLoading]); // Depend on isLoading to avoid loop if fetchAgentData causes state change triggering useEffect
+    }, []); // Depend on isLoading to avoid loop if fetchAgentData causes state change triggering useEffect
 
     useEffect(() => {
         setIsLoading(true); // Set loading true on initial mount fetch
