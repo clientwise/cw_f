@@ -515,7 +515,7 @@ if (error && tasks.length === 0 && activities.length === 0) {
                              <div className="absolute inset-0 flex items-center justify-center text-gray-500"><i className="fas fa-spinner fa-spin mr-2"></i>Loading Chart...</div>
                          ) : chartError ? (
                               <div className="absolute inset-0 flex items-center justify-center text-red-500 text-sm">{chartError}</div>
-                         ) : salesData > 0 ? (
+                         ) : salesData && salesData.length> 0 ? (                  
                             <Line options={chartOptions} data={chartData} />
                          ) : (
                              <div className="absolute inset-0 flex items-center justify-center text-gray-500 italic">No sales data available for the last 12 months.</div>
