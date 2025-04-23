@@ -63,7 +63,7 @@ const ProductsPage = () => {
         if (searchTerm) params.append('search', searchTerm);
         // TODO: Add limit and offset params
 
-        const url = `http://localhost:8080/api/products?${params.toString()}`;
+        const url = `https://api.goclientwise.com/api/products?${params.toString()}`;
 
         try {
             const response = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });

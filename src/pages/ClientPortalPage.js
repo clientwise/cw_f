@@ -57,7 +57,7 @@ const ClientPortalPage = () => {
         setIsLoading(true); setError(null);
 
         try {
-            const response = await fetch(`http://localhost:8080/api/portal/client/${token}`);
+            const response = await fetch(`https://api.goclientwise.com/api/portal/client/${token}`);
             if (!response.ok) {
                 let errorMsg = `Error (${response.status})`;
                 try { const d = await response.json(); errorMsg = d.error || errorMsg; } catch (e) {}
@@ -103,7 +103,7 @@ const ClientPortalPage = () => {
         formData.append('file', docFile);
 
         try {
-            const response = await fetch(`http://localhost:8080/api/portal/client/${token}/documents`, {
+            const response = await fetch(`https://api.goclientwise.com/api/portal/client/${token}/documents`, {
                 method: 'POST',
                 // No Content-Type header needed for FormData
                 body: formData,

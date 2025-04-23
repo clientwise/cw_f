@@ -50,8 +50,8 @@ const AgentProfilePage = () => {
         if (!token) { setError("Authentication error."); setIsLoading(false); return; }
 
         const headers = { 'Authorization': `Bearer ${token}` };
-        const profileUrl = `http://localhost:8080/api/agents/profile`;
-        const goalUrl = `http://localhost:8080/api/agents/goals`;
+        const profileUrl = `https://api.goclientwise.com/api/agents/profile`;
+        const goalUrl = `https://api.goclientwise.com/api/agents/goals`;
 
         setIsLoading(true);
 
@@ -85,6 +85,7 @@ const AgentProfilePage = () => {
                 setAgentGoal(goalData || null);
             }
 
+<<<<<<< HEAD
         } catch (err) {
             console.error("Failed fetch agent data:", err);
             setError(err.message || "Could not load data.");
@@ -94,6 +95,11 @@ const AgentProfilePage = () => {
             setIsLoading(false);
         }
     }, []);
+=======
+        } catch (err) { console.error("Failed fetch agent data:", err); setError(err.message || "Could not load data."); setAgentProfileData(null); setAgentGoal(null); }
+        finally { setIsLoading(false); } // Stop loading after all fetches attempt
+    }, []); // Depend on isLoading to avoid loop if fetchAgentData causes state change triggering useEffect
+>>>>>>> ecf9462fa5ba82ff87c3090670b89d2a85b693b7
 
     useEffect(() => {
         if (userInfo?.userId) {

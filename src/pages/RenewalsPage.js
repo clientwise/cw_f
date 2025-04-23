@@ -17,7 +17,7 @@ const RenewalsPage = () => {
         if (!token) { setError("Authentication error"); setIsLoading(false); return; }
 
         try {
-            const response = await fetch(`http://localhost:8080/api/policies/renewals?days=${daysFilter}`, {
+            const response = await fetch(`https://api.goclientwise.com/api/policies/renewals?days=${daysFilter}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (!response.ok) throw new Error('Failed to fetch renewals');

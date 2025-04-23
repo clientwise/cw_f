@@ -207,8 +207,8 @@ const DashboardOverview = () => {
         if (!token) { setError("Authentication error: Not logged in."); setIsLoading(false); return; }
 
         const headers = { 'Authorization': `Bearer ${token}` };
-        const baseUrl = 'http://localhost:8080/api/dashboard'; // Base URL for dashboard APIs
-        const baseApiUrl = 'http://localhost:8080/api';
+        const baseUrl = 'https://api.goclientwise.com/api/dashboard'; // Base URL for dashboard APIs
+        const baseApiUrl = 'https://api.goclientwise.com/api';
         const fetchDataFor = async (url) => {
           const response = await fetch(url, { headers });
           if (!response.ok) {
@@ -239,8 +239,15 @@ const DashboardOverview = () => {
               fetchDataFor(`${baseApiUrl}/agents/goals`),             // Fetch Goals
         
               fetchDataFor(`${baseApiUrl}/agents/my-clients-full-data`), // Fetch Full Client Data
-              fetchDataFor("http://localhost:8080/api/agents/sales-performance", setSalesData, true, setIsChartLoading),
-
+              fetchDataFor("https://api.goclientwise.com/api/agents/sales-performance")
+                .then(data => {
+                    setSalesData(data);
+                    setIsChartLoading(false);
+                })
+                .catch(err => {
+                    setChartError(err.message);
+                    setIsChartLoading(false);
+                })
             ]);
 
           // Process results for standard dashboard sections
@@ -288,10 +295,7 @@ const DashboardOverview = () => {
   useEffect(() => {
       fetchDashboardData();
   }, [fetchDashboardData]);
-    useEffect(() => {
-        fetchDashboardData();
-    }, [fetchDashboardData]); // Depend on the function itself
-
+   
 
     const handleSuggestTasks = async () => {
       setIsSuggestingTasks(true);
@@ -303,7 +307,7 @@ const DashboardOverview = () => {
       console.log("Requesting AI task suggestions...");
 
       try {
-          const response = await fetch(`http://localhost:8080/api/agents/suggest-tasks`, {
+          const response = await fetch(`https://api.goclientwise.com/api/agents/suggest-tasks`, {
               method: 'POST',
               headers: { 'Authorization': `Bearer ${token}` },
           });
@@ -335,8 +339,21 @@ const DashboardOverview = () => {
 
     // --- Chart Data and Options ---
     const chartData = useMemo(() => {
-        const labels = salesData.map(d => d.Month); // Use YYYY-MM from backend
-        const dataPoints = salesData.map(d => d.Count);
+            if (!salesData) {
+                return {
+                    labels: [],
+                    datasets: [{
+                        label: 'Policies Sold per Month',
+                        data: [],
+                        borderColor: themeColors.brandPurple,
+                        backgroundColor: 'rgba(90, 35, 158, 0.1)',
+                        tension: 0.1,
+                        fill: true,
+                    }]
+                };
+            }
+        const labels = salesData.map(d => d.month); // Use YYYY-MM from backend
+        const dataPoints = salesData.map(d => d.count);
         return {
             labels,
             datasets: [
@@ -498,7 +515,7 @@ if (error && tasks.length === 0 && activities.length === 0) {
                              <div className="absolute inset-0 flex items-center justify-center text-gray-500"><i className="fas fa-spinner fa-spin mr-2"></i>Loading Chart...</div>
                          ) : chartError ? (
                               <div className="absolute inset-0 flex items-center justify-center text-red-500 text-sm">{chartError}</div>
-                         ) : salesData.length > 0 ? (
+                         ) : salesData && salesData.length> 0 ? (                  
                             <Line options={chartOptions} data={chartData} />
                          ) : (
                              <div className="absolute inset-0 flex items-center justify-center text-gray-500 italic">No sales data available for the last 12 months.</div>
