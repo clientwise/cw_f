@@ -11,32 +11,32 @@ const Footer = () => (
                 {/* Column 1: About Us */}
                 <div>
                     <h5 className="mb-3 text-sm font-semibold text-gray-700">About Us</h5>
-                    <a href="https://www.goclientwise.in"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Mission</a>
-                    <a href="https://www.goclientwise.in"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Team</a>
-                    <a href="https://www.goclientwise.in"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Why ClientWise</a>
+                    <a href="https://www.goclientwise.com"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Mission</a>
+                    <a href="https://www.goclientwise.com"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Team</a>
+                    <a href="https://www.goclientwise.com"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Why ClientWise</a>
                 </div>
                 {/* Column 2: AI Topics */}
                 <div>
                     <h5 className="mb-3 text-sm font-semibold text-gray-700">AI Topics</h5>
-                    <a href="https://www.goclientwise.in"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Policy Summary</a>
-                    <a href="https://www.goclientwise.in"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Policy Recommendation</a>
-                    <a href="https://www.goclientwise.in"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">AI Chatbot</a>
+                    <a href="https://www.goclientwise.com"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Policy Summary</a>
+                    <a href="https://www.goclientwise.com"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Policy Recommendation</a>
+                    <a href="https://www.goclientwise.com"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">AI Chatbot</a>
                 </div>
                 {/* Column 3: Blogs */}
                 <div>
                     <h5 className="mb-3 text-sm font-semibold text-gray-700">Blogs</h5>
-                    <a href="https://www.goclientwise.in"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Agents</a>
-                    <a href="https://www.goclientwise.in"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Agencies</a>
-                    <a href="https://www.goclientwise.in"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Test Series</a>
-                    <a href="https://www.goclientwise.in"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Media</a>
+                    <a href="https://www.goclientwise.com"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Agents</a>
+                    <a href="https://www.goclientwise.com"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Agencies</a>
+                    <a href="https://www.goclientwise.com"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Test Series</a>
+                    <a href="https://www.goclientwise.com"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Media</a>
                 </div>
                 {/* Column 4: Partner with Us */}
                 <div>
                     <h5 className="mb-3 text-sm font-semibold text-gray-700">Partner with Us</h5>
-                    <a href="https://www.goclientwise.in"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Agencies</a>
-                    <a href="https://www.goclientwise.in"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Sales Program</a>
-                    <a href="https://www.goclientwise.in"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Refer and Earn</a>
-                    <a href="https://www.goclientwise.in"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Insurer Partnership</a>
+                    <a href="https://www.goclientwise.com"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Agencies</a>
+                    <a href="https://www.goclientwise.com"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Sales Program</a>
+                    <a href="https://www.goclientwise.com"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Refer and Earn</a>
+                    <a href="https://www.goclientwise.com"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Insurer Partnership</a>
                 </div>
                  {/* Column 5: Disclosures */}
                  <div>
@@ -54,7 +54,7 @@ const Footer = () => (
                  {/* Column 7: Reach Us */}
                  <div>
                     <h5 className="mb-3 text-sm font-semibold text-gray-700">Reach Us</h5>
-                    <a href="https://www.goclientwise.in"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Book a Demo</a>
+                    <a href="https://www.goclientwise.com"  className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Book a Demo</a>
                     <a href="mailto:info@clientwise.example" className="block mb-1.5 text-sm text-gray-600 hover:text-[--brand-purple]">Email</a>
                     <p className="text-sm mb-2 text-gray-500">123 Main St, Anytown, USA</p>
                     {/* Social Media Icons */}

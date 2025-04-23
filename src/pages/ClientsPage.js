@@ -113,11 +113,16 @@ const ClientsPage = () => {
         <div style={{'--brand-purple': themeColors.brandPurple}}>
             {/* Header Bar */}
             <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
-                <h2 className="text-2xl font-semibold text-gray-800">Clients</h2>
-                <Button onClick={openModal} variant="brand" className="px-4 py-2 text-sm">
-                    <i className="fas fa-plus mr-2"></i>Add New Client
-                </Button>
-            </div>
+  <h2 className="text-2xl font-semibold text-gray-800">Clients</h2>
+  <div className="flex gap-2"> {/* Container for the buttons */}
+    <Button onClick={openBulkUploadModal} variant="outlineSm" className="px-3 py-1.5 text-sm">
+      <i className="fas fa-file-csv mr-2"></i>Bulk Upload
+    </Button>
+    <Button onClick={openModal} variant="brand" className="px-4 py-2 text-sm">
+      <i className="fas fa-plus mr-2"></i>Add New Client
+    </Button>
+  </div>
+</div>
 
             {/* --- NEW: Share Onboarding Link Section --- */}
             {userInfo?.userId && onboardingLink && (

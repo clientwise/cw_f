@@ -107,9 +107,9 @@ const DashboardOverview = () => {
    // --- NEW: State for Add Client Modal ---
    const [isClientModalOpen, setIsClientModalOpen] = useState(false);
    // -----
-    // const [isSuggestingTasks, setIsSuggestingTasks] = useState(false);
-    // const [suggestTasksError, setSuggestTasksError] = useState(null);
-    // const [suggestTasksSuccess, setSuggestTasksSuccess] = useState('');
+    const [isSuggestingTasks, setIsSuggestingTasks] = useState(false);
+    const [suggestTasksError, setSuggestTasksError] = useState(null);
+    const [suggestTasksSuccess, setSuggestTasksSuccess] = useState('');
     // ---------------------------------------------
     // Fetch all dashboard data on component mount
 
@@ -297,34 +297,34 @@ const DashboardOverview = () => {
   }, [fetchDashboardData]);
    
 
-//     const handleSuggestTasks = async () => {
-//       setIsSuggestingTasks(true);
-//       setSuggestTasksError(null);
-//       setSuggestTasksSuccess('');
-//       const token = localStorage.getItem('authToken');
-//       if (!token) { setSuggestTasksError("Authentication error."); setIsSuggestingTasks(false); return; }
+    const handleSuggestTasks = async () => {
+      setIsSuggestingTasks(true);
+      setSuggestTasksError(null);
+      setSuggestTasksSuccess('');
+      const token = localStorage.getItem('authToken');
+      if (!token) { setSuggestTasksError("Authentication error."); setIsSuggestingTasks(false); return; }
 
-//       console.log("Requesting AI task suggestions...");
+      console.log("Requesting AI task suggestions...");
 
-//       try {
-//           const response = await fetch(`https://api.goclientwise.com/api/agents/suggest-tasks`, {
-//               method: 'POST',
-//               headers: { 'Authorization': `Bearer ${token}` },
-//           });
-//           const result = await response.json();
-//           if (!response.ok) { throw new Error(result.error || `Failed to get suggestions (${response.status})`); }
+      try {
+          const response = await fetch(`https://api.goclientwise.com/api/agents/suggest-tasks`, {
+              method: 'POST',
+              headers: { 'Authorization': `Bearer ${token}` },
+          });
+          const result = await response.json();
+          if (!response.ok) { throw new Error(result.error || `Failed to get suggestions (${response.status})`); }
 
-//           setSuggestTasksSuccess(result.message || "AI tasks suggested successfully!");
-//           // Refresh the task list displayed on the dashboard
-//           fetchDashboardData('tasks');
+          setSuggestTasksSuccess(result.message || "AI tasks suggested successfully!");
+          // Refresh the task list displayed on the dashboard
+          fetchDashboardData('tasks');
 
-//       } catch (err) {
-//           console.error("Suggest Tasks Error:", err);
-//           setSuggestTasksError(err.message || "An error occurred while suggesting tasks.");
-//       } finally {
-//           setIsSuggestingTasks(false);
-//       }
-//   };
+      } catch (err) {
+          console.error("Suggest Tasks Error:", err);
+          setSuggestTasksError(err.message || "An error occurred while suggesting tasks.");
+      } finally {
+          setIsSuggestingTasks(false);
+      }
+  };
   const openClientModal = () => setIsClientModalOpen(true);
     const closeClientModal = () => setIsClientModalOpen(false);
     const handleClientAdded = () => {
@@ -454,7 +454,7 @@ if (error && tasks.length === 0 && activities.length === 0) {
                     <div> <p className="text-sm font-medium text-gray-500">New Leads (Week)</p> <p className="text-2xl font-bold text-gray-800">{metrics.newLeadsThisWeek}</p> </div>
                      <div className={`p-3 rounded-full ${getIconBgColor('blue')}`}> <i className="fas fa-user-plus fa-lg"></i> </div>
                 </div>
-                 <a href="https://www.goclientwise.in"  className="text-xs text-purple-600 hover:underline mt-2 block">Manage Leads</a>
+                 <a href="https://www.goclientwise.com"  className="text-xs text-purple-600 hover:underline mt-2 block">Manage Leads</a>
             </div>
 
             {/* Upcoming Tasks Card - Now using fetched data */}
