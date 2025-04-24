@@ -47,7 +47,7 @@ const ClientsPage = () => {
         setIsLoading(true); setError(null);
         const token = localStorage.getItem('authToken');
         if (!token) { setError("Authentication error: Not logged in."); setIsLoading(false); return; }
-
+// https://api.goclientwise.com
         const params = new URLSearchParams();
         if (statusFilter && statusFilter !== 'All Statuses') params.append('status', statusFilter);
         if (searchTerm) params.append('search', searchTerm);

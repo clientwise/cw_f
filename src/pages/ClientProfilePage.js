@@ -368,7 +368,7 @@ const handleGeneratePortalLink = async () => {
     }
 
     //  const clientId = 'your_client_id';  <--  No longer hardcoded
-    const apiUrl = `/api/clients/5/generate-portal-link`; // Construct the API URL
+    const apiUrl = `https://api.goclientwise.com/api/clients/6/generate-portal-link`; // Construct the API URL
 
     try {
        
