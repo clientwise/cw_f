@@ -34,7 +34,7 @@ const ClientsPage = () => {
     useEffect(() => {
         if (userInfo?.userId) {
             // Construct the base URL carefully
-            const baseUrl = window.location.origin; // Gets http://localhost:3000 or your domain
+            const baseUrl = window.location.origin; // Gets https://api.goclientwise.com or your domain
             const formPath = '/onboarding_form.html'; // Assumes form is in public folder
             const fullLink = `${baseUrl}${formPath}?agentId=${userInfo.userId}`;
             setOnboardingLink(fullLink);
