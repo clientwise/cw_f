@@ -5,7 +5,7 @@ import Footer from '../components/layout/Footer';
 
 
 const AboutUsPage = () => {
-    const companyName = "18Novem Techologies";
+    const companyName = "18Novem Technologies";
 
     return (
         <div className="">
@@ -39,8 +39,8 @@ const AboutUsPage = () => {
                         <li>And much more...</li>
                     </ul>
 
-                    <h2>Our Team</h2>
-                    <p>[Placeholder: Briefly introduce the team, founders, or company philosophy. Highlight relevant experience in insurance or technology.]</p>
+                    {/* <h2>Our Team</h2>
+                    <p>[Placeholder: Briefly introduce the team, founders, or company philosophy. Highlight relevant experience in insurance or technology.]</p> */}
 
                     <h2>Our Commitment</h2>
                     <p>We are committed to continuous improvement, data security, and providing exceptional support to our users. We actively listen to feedback and strive to evolve ClientWise to meet the ever-changing demands of the insurance industry.</p>

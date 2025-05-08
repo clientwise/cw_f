@@ -37,7 +37,7 @@ const MarketingPage = () => {
         if (!token) { setError("Authentication error: Not logged in."); setIsLoading(false); return; }
 
         const headers = { 'Authorization': `Bearer ${token}` };
-        const baseUrl = 'https://api.goclientwise.com/api/marketing';
+        const baseUrl = 'http://localhost:8080/api/marketing';
 
         const fetchDataFor = async (endpoint, setter) => {
             // Don't reset individual lists if just refreshing one type

@@ -5,7 +5,7 @@ import Footer from '../components/layout/Footer';
 
 
 const TermsPage = () => {
-    const companyName = "18Novem Techologies"; // Use the registered entity name
+    const companyName = "18Novem Technologies"; // Use the registered entity name
 
     return (
         <div><Header></Header>

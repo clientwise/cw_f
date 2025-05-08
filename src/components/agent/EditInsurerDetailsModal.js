@@ -4,10 +4,11 @@ import InputField from '../common/InputField'; // Adjust path if needed
 
 // Assume themeColors is available globally or via context/props
 const themeColors = { brandPurple: '#5a239e', brandPurpleHover: '#703abc', red100: '#fee2e2', red700: '#b91c1c', /* ... */ };
-const MAX_INSURERS = 10; // Allow more insurers than just POCs
+const MAX_INSURERS = 25; // Allow a reasonable number of insurers
 
 const EditInsurerDetailsModal = ({ isOpen, onClose, onDetailsUpdated, currentDetails = [] }) => {
     // State for the list of insurer details being edited
+    // Ensure each item has all necessary fields
     const [details, setDetails] = useState([]);
 
     // API/UI State
@@ -17,13 +18,18 @@ const EditInsurerDetailsModal = ({ isOpen, onClose, onDetailsUpdated, currentDet
     // Pre-fill form when modal opens or currentDetails change
     useEffect(() => {
         if (isOpen) {
-            // Initialize details state from prop
+            // Initialize details state from prop, ensuring all fields exist
             const initialDetails = (currentDetails || []).slice(0, MAX_INSURERS).map(d => ({
                 insurerName: d.insurerName || '',
                 agentCode: d.agentCode?.String || '', // Handle NullString
                 spocEmail: d.spocEmail?.String || '', // Handle NullString
-                commissionPercentage: d.commissionPercentage?.Valid ? d.commissionPercentage.Float64.toString() : '', // Handle NullFloat64
+                upfrontCommissionPercentage: d.upfrontCommissionPercentage?.Valid ? d.upfrontCommissionPercentage.Float64.toString() : '', // Handle NullFloat64
+                trailCommissionPercentage: d.trailCommissionPercentage?.Valid ? d.trailCommissionPercentage.Float64.toString() : '', // Handle NullFloat64
             }));
+            // Ensure at least one empty row if initialDetails is empty? Optional.
+            // if (initialDetails.length === 0) {
+            //     initialDetails.push({ insurerName: '', agentCode: '', spocEmail: '', upfrontCommissionPercentage: '', trailCommissionPercentage: '' });
+            // }
             setDetails(initialDetails);
             setError('');
             setIsSubmitting(false);
@@ -39,7 +45,7 @@ const EditInsurerDetailsModal = ({ isOpen, onClose, onDetailsUpdated, currentDet
 
     const addDetailRow = () => {
         if (details.length < MAX_INSURERS) {
-            setDetails([...details, { insurerName: '', agentCode: '', spocEmail: '', commissionPercentage: '' }]);
+            setDetails([...details, { insurerName: '', agentCode: '', spocEmail: '', upfrontCommissionPercentage: '', trailCommissionPercentage: '' }]);
         }
     };
 
@@ -50,10 +56,16 @@ const EditInsurerDetailsModal = ({ isOpen, onClose, onDetailsUpdated, currentDet
 
     // Basic email validation helper
     const isValidEmail = (email) => {
+        if (!email) return true; // Allow empty email
         // Simple check, consider a more robust regex for production
-        return email && email.includes('@') && email.includes('.');
+        return email.includes('@') && email.includes('.');
     };
-
+    // Basic percentage validation helper
+    const isValidPercentage = (value) => {
+         if (!value) return true; // Allow empty percentage
+         const num = parseFloat(value);
+         return !isNaN(num) && num >= 0 && num <= 100;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -68,36 +80,41 @@ const EditInsurerDetailsModal = ({ isOpen, onClose, onDetailsUpdated, currentDet
             const insurerName = detail.insurerName.trim();
             const agentCode = detail.agentCode.trim();
             const spocEmail = detail.spocEmail.trim();
-            const commissionStr = detail.commissionPercentage.trim();
-            let commission = null;
+            const upfrontCommStr = detail.upfrontCommissionPercentage.trim();
+            const trailCommStr = detail.trailCommissionPercentage.trim();
+
+            // Skip completely empty rows silently
+            if (!insurerName && !agentCode && !spocEmail && !upfrontCommStr && !trailCommStr) {
+                continue;
+            }
 
             // Insurer name is mandatory if any other field in the row is filled
-            if (!insurerName && (agentCode || spocEmail || commissionStr)) {
-                validationError = "Insurer Name is required for each row with other details.";
+            if (!insurerName) {
+                validationError = "Insurer Name is required for each row you add details to.";
                 break;
             }
-            if (!insurerName) continue; // Skip completely empty rows silently
-
             // Validate SPOC email format if provided
             if (spocEmail && !isValidEmail(spocEmail)) {
                  validationError = `Invalid SPOC Email format for insurer "${insurerName}".`;
                  break;
             }
-            // Validate commission percentage if provided
-            if (commissionStr) {
-                 const parsedComm = parseFloat(commissionStr);
-                 if (isNaN(parsedComm) || parsedComm < 0 || parsedComm > 100) {
-                     validationError = `Invalid Commission % for insurer "${insurerName}". Must be between 0 and 100.`;
-                     break;
-                 }
-                 commission = parsedComm;
+            // Validate commission percentages if provided
+            if (upfrontCommStr && !isValidPercentage(upfrontCommStr)) {
+                 validationError = `Invalid Upfront Commission % for insurer "${insurerName}". Must be between 0 and 100.`;
+                 break;
+            }
+             if (trailCommStr && !isValidPercentage(trailCommStr)) {
+                 validationError = `Invalid Trail Commission % for insurer "${insurerName}". Must be between 0 and 100.`;
+                 break;
             }
 
             payloadDetails.push({
                 insurerName: insurerName,
                 agentCode: agentCode || null, // Send null if empty
                 spocEmail: spocEmail || null,
-                commissionPercentage: commission // Already parsed or null
+                // Parse valid numbers, send null otherwise
+                upfrontCommissionPercentage: upfrontCommStr ? parseFloat(upfrontCommStr) : null,
+                trailCommissionPercentage: trailCommStr ? parseFloat(trailCommStr) : null,
             });
         }
 
@@ -107,11 +124,11 @@ const EditInsurerDetailsModal = ({ isOpen, onClose, onDetailsUpdated, currentDet
             return;
         }
 
-        const payload = { details: payloadDetails };
-        console.log("Updating Insurer Details (API Call):", payload);
+        const payload = { relations: payloadDetails }; // Backend expects 'relations' key
+        console.log("Updating Insurer Relations (API Call):", payload);
 
         try {
-           const response = await fetch(`https://api.goclientwise.com/api/agents/insurer-details`, { // Updated endpoint
+           const response = await fetch(`http://localhost:8080/api/agents/insurer-relations`, { // Updated endpoint
               method: 'PUT',
               headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
               body: JSON.stringify(payload)
@@ -137,37 +154,42 @@ const EditInsurerDetailsModal = ({ isOpen, onClose, onDetailsUpdated, currentDet
             {/* Increased max-w-4xl */}
             <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col" style={{'--brand-purple': themeColors.brandPurple}}>
                 <div className="flex justify-between items-center p-4 border-b">
-                    <h2 className="text-lg font-semibold text-[--brand-purple]">Edit Insurer Details & Codes</h2>
+                    <h2 className="text-lg font-semibold text-[--brand-purple]">Manage Insurer Details</h2>
                     <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><i className="fas fa-times fa-lg"></i></button>
                 </div>
                 <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto">
                     {error && <div className="text-sm text-red-700 p-2 bg-red-100 border border-red-200 rounded">{error}</div>}
-                     <p className="text-xs text-gray-500 mb-3">Manage your agent codes, SPOC emails, and default commission rates for insurers (Max {MAX_INSURERS}). SPOC Email is used for proposal generation.</p>
+                     <p className="text-xs text-gray-500 mb-3">Manage your agent codes, SPOC emails, and commission rates for insurers (Max {MAX_INSURERS}). SPOC Email is used for proposal generation.</p>
                      <div className="space-y-3">
-                        {/* Header Row (Optional) */}
+                        {/* Header Row */}
                          <div className="grid grid-cols-12 gap-2 text-xs font-medium text-gray-500 px-1 pb-1 border-b">
-                             <div className="col-span-4">Insurer Name*</div>
+                             <div className="col-span-3">Insurer Name*</div>
                              <div className="col-span-2">Agent Code</div>
-                             <div className="col-span-4">SPOC Email</div>
-                             <div className="col-span-1 text-right">Comm %</div>
+                             <div className="col-span-3">SPOC Email</div>
+                             <div className="col-span-2 text-right">Upfront %</div>
+                             <div className="col-span-1 text-right">Trail %</div>
                              <div className="col-span-1"></div> {/* Spacer for delete */}
                          </div>
 
+                        {/* Input Rows */}
                         {details.map((detail, index) => (
-                            <div key={index} className="grid grid-cols-12 gap-2 items-center">
-                                <div className="col-span-4">
-                                     <InputField id={`ins-name-${index}`} value={detail.insurerName} onChange={e => handleDetailChange(index, 'insurerName', e.target.value)} placeholder="Insurer Name" noLabel required={detail.agentCode || detail.spocEmail || detail.commissionPercentage} />
+                            <div key={index} className="grid grid-cols-12 gap-2 items-start border-b pb-3 last:border-b-0">
+                                <div className="col-span-3">
+                                     <InputField id={`ins-name-${index}`} value={detail.insurerName} onChange={e => handleDetailChange(index, 'insurerName', e.target.value)} placeholder="Insurer Name" noLabel required={!!(detail.agentCode || detail.spocEmail || detail.upfrontCommissionPercentage || detail.trailCommissionPercentage)} />
                                 </div>
                                  <div className="col-span-2">
                                      <InputField id={`ins-code-${index}`} value={detail.agentCode} onChange={e => handleDetailChange(index, 'agentCode', e.target.value)} placeholder="Code" noLabel />
                                  </div>
-                                 <div className="col-span-4">
+                                 <div className="col-span-3">
                                      <InputField id={`ins-email-${index}`} type="email" value={detail.spocEmail} onChange={e => handleDetailChange(index, 'spocEmail', e.target.value)} placeholder="spoc@insurer.com" noLabel />
                                  </div>
-                                 <div className="col-span-1">
-                                      <InputField id={`ins-comm-${index}`} type="number" step="0.01" min="0" max="100" value={detail.commissionPercentage} onChange={e => handleDetailChange(index, 'commissionPercentage', e.target.value)} placeholder="%" noLabel className="text-right"/>
+                                 <div className="col-span-2">
+                                      <InputField id={`ins-comm-upfront-${index}`} type="number" step="0.01" min="0" max="100" value={detail.upfrontCommissionPercentage} onChange={e => handleDetailChange(index, 'upfrontCommissionPercentage', e.target.value)} placeholder="e.g. 15.5" noLabel className="text-right"/>
                                  </div>
-                                 <div className="col-span-1 text-right">
+                                  <div className="col-span-1">
+                                      <InputField id={`ins-comm-trail-${index}`} type="number" step="0.01" min="0" max="100" value={detail.trailCommissionPercentage} onChange={e => handleDetailChange(index, 'trailCommissionPercentage', e.target.value)} placeholder="%" noLabel className="text-right"/>
+                                 </div>
+                                 <div className="col-span-1 text-right pt-1"> {/* Adjusted padding */}
                                      <button type="button" onClick={() => removeDetailRow(index)} className="text-red-500 hover:text-red-700 p-1" title="Remove Row">
                                          <i className="fas fa-trash-alt"></i>
                                      </button>
@@ -175,16 +197,18 @@ const EditInsurerDetailsModal = ({ isOpen, onClose, onDetailsUpdated, currentDet
                             </div>
                         ))}
                      </div>
+                     {/* Add Row Button */}
                      {details.length < MAX_INSURERS && (
                         <Button type="button" onClick={addDetailRow} variant="outlineSm" className="mt-3 text-xs">
                             <i className="fas fa-plus mr-1"></i> Add Insurer Row
                         </Button>
                      )}
 
+                     {/* Footer Actions */}
                      <div className="flex justify-end space-x-3 pt-6 border-t mt-6">
                         <Button type="button" variant="outlineSm" onClick={onClose}>Cancel</Button>
                         <Button type="submit" variant="brand" disabled={isSubmitting}>
-                            {isSubmitting ? 'Saving Details...' : 'Save Insurer Details'}
+                            {isSubmitting ? 'Saving...' : 'Save Insurer Details'}
                         </Button>
                     </div>
                 </form>
@@ -193,7 +217,7 @@ const EditInsurerDetailsModal = ({ isOpen, onClose, onDetailsUpdated, currentDet
     );
 };
 
-// Helper component used above
+// Helper component used above (ensure it's defined or imported)
 // const InputField = ({ id, label, noLabel = false, ...props }) => (
 //     <div>
 //         {!noLabel && <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">{label}</label>}

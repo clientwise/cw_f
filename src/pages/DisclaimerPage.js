@@ -4,7 +4,7 @@ import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 
 const DisclaimerPage = () => {
-     const companyName = "18Novem Techologies";
+     const companyName = "18Novem Technologies";
 
     return (
         <div>

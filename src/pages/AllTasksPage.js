@@ -49,7 +49,7 @@ const AllTasksPage = () => {
         params.append('limit', pageSize.toString());
 
         try {
-            const response = await fetch(`https://api.goclientwise.com/api/tasks?${params.toString()}`, {
+            const response = await fetch(`http://localhost:8080/api/tasks?${params.toString()}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (!response.ok) throw new Error('Failed to fetch tasks');

@@ -207,8 +207,8 @@ const DashboardOverview = () => {
         if (!token) { setError("Authentication error: Not logged in."); setIsLoading(false); return; }
 
         const headers = { 'Authorization': `Bearer ${token}` };
-        const baseUrl = 'https://api.goclientwise.com/api/dashboard'; // Base URL for dashboard APIs
-        const baseApiUrl = 'https://api.goclientwise.com/api';
+        const baseUrl = 'http://localhost:8080/api/dashboard'; // Base URL for dashboard APIs
+        const baseApiUrl = 'http://localhost:8080/api';
         const fetchDataFor = async (url) => {
           const response = await fetch(url, { headers });
           if (!response.ok) {
@@ -239,7 +239,7 @@ const DashboardOverview = () => {
               fetchDataFor(`${baseApiUrl}/agents/goals`),             // Fetch Goals
         
               fetchDataFor(`${baseApiUrl}/agents/my-clients-full-data`), // Fetch Full Client Data
-              fetchDataFor("https://api.goclientwise.com/api/agents/sales-performance")
+              fetchDataFor("http://localhost:8080/api/agents/sales-performance")
                 .then(data => {
                     setSalesData(data);
                     setIsChartLoading(false);
@@ -307,7 +307,7 @@ const DashboardOverview = () => {
       console.log("Requesting AI task suggestions...");
 
       try {
-          const response = await fetch(`https://api.goclientwise.com/api/agents/suggest-tasks`, {
+          const response = await fetch(`http://localhost:8080/api/agents/suggest-tasks`, {
               method: 'POST',
               headers: { 'Authorization': `Bearer ${token}` },
           });

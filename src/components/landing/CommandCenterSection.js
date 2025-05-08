@@ -10,7 +10,7 @@ const CommandCenterSection = () => (
              <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-[--brand-purple] mb-6 animate-on-scroll" style={{'--brand-purple': themeColors.brandPurple}}> Your Agency's Command Center </h2>
             <p className="text-lg md:text-xl text-gray-600 mb-12 max-w-3xl mx-auto animate-on-scroll delay-100"> Tired of scattered data and guesswork? ClientWise brings everything together, giving you the clarity and control needed to elevate your agency's performance. </p>
             <div className="bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-2xl max-w-4xl mx-auto animate-on-scroll delay-200">
-                 <img src="https://placehold.co/900x500/ffffff/5a239e?text=ClientWise+Dashboard+Mockup" alt="ClientWise Dashboard Mockup" className="rounded-lg border border-gray-200" onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/900x500/cccccc/ffffff?text=Error'; }}/>
+                 <img src="https://i.ibb.co/4RYjKWy9/Group-1.png" alt="ClientWise Dashboard Mockup" className="rounded-lg border border-gray-200" onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/900x500/cccccc/ffffff?text=Error'; }}/>
             </div>
         </div>
     </section>

@@ -38,7 +38,7 @@ const EditAgentGoalModal = ({ isOpen, onClose, onGoalUpdated, currentGoal }) => 
         console.log("Updating Agent Goal (API Call):", payload);
 
         try {
-           const response = await fetch(`https://api.goclientwise.com/api/agents/goals`, {
+           const response = await fetch(`http://localhost:8080/api/agents/goals`, {
               method: 'PUT',
               headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
               body: JSON.stringify(payload)

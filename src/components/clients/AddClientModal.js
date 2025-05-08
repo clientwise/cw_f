@@ -86,7 +86,7 @@ const AddClientModal = ({ isOpen, onClose, onClientAdded }) => {
         console.log("Submitting Client (API Call):", payload);
 
         try {
-           const response = await fetch(`https://api.goclientwise.com/api/clients`, {
+           const response = await fetch(`http://localhost:8080/api/clients`, {
               method: 'POST',
               headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
               body: JSON.stringify(payload)

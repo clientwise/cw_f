@@ -4,7 +4,7 @@ import { useOutletContext } from 'react-router-dom';
 import Button from '../components/common/Button'; // Adjust path if needed
 import EditAgentProfileModal from '../components/agent/EditAgentProfileModal'; // Adjust path
 import EditAgentGoalModal from '../components/agent/EditAgentGoalModal'; // Adjust path
-import EditInsurerDetailsModal from '../components/agent/EditInsurerDetailsModal'; // Adjust path
+import EditInsurerDetailsModal from '../components/agent/EditInsurerDetailsModal'; // NEW: Details modal
 
 // Assume themeColors and helper functions are defined or imported globally/context
 const themeColors = { brandPurple: '#5a239e', brandPurpleHover: '#703abc', /* ... */ };
@@ -28,6 +28,7 @@ const AgentProfilePage = () => {
     const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
     const [isEditGoalModalOpen, setIsEditGoalModalOpen] = useState(false);
     const [isEditPocModalOpen, setIsEditPocModalOpen] = useState(false); // State for the POC modal
+    const [isEditInsurerModalOpen, setIsEditInsurerModalOpen] = useState(false); // State for the new modal
 
     // Fetch agent profile (includes POCs) and goal data
     const fetchAgentData = useCallback(async (refreshType = 'all') => {
@@ -46,8 +47,8 @@ const AgentProfilePage = () => {
 
         const headers = { 'Authorization': `Bearer ${token}` };
         // Adjust API endpoint if your profile endpoint doesn't include InsurerPOCs
-        const profileUrl = `https://api.goclientwise.com/api/agents/profile`; // Assumes this returns FullAgentProfileWithPOCs structure
-        const goalUrl = `https://api.goclientwise.com/api/agents/goals`;
+        const profileUrl = `http://localhost:8080/api/agents/profile`; // Assumes this returns FullAgentProfileWithPOCs structure
+        const goalUrl = `http://localhost:8080/api/agents/goals`;
 
         // Helper to fetch and handle errors for individual endpoints
         const fetchApi = async (url, setter, isList = false) => {
@@ -98,6 +99,12 @@ const AgentProfilePage = () => {
 
     const openEditPocModal = () => setIsEditPocModalOpen(true);
     const closeEditPocModal = () => setIsEditPocModalOpen(false);
+
+    const openEditInsurerModal = () => setIsEditInsurerModalOpen(true);
+    const closeEditInsurerModal = () => setIsEditInsurerModalOpen(false);
+    const handleDetailsUpdated = () => { fetchAgentData('profile'); }; // Refetch profile data which includes relations
+    // -------------------------------------------------
+
     // Renamed handler to match prop passed to modal
     const handleInsurerDetailsUpdated = () => {
         closeEditPocModal();
@@ -140,7 +147,8 @@ const AgentProfilePage = () => {
     const userPart = agentProfileData;
     const profilePart = agentProfileData;
     // Display POCs directly from the source data
-    const insurerPOCsToDisplay = agentProfileData?.InsurerPOCs || [];
+    // const insurerPOCsToDisplay = agentProfileData?.InsurerPOCs || [];
+    const insurerDetails = agentProfileData?.InsurerRelations || []; // Use new field name
 
 
     return (
@@ -192,40 +200,41 @@ const AgentProfilePage = () => {
 
             {/* Insurer Contacts/Details Card */}
             <div className="bg-white rounded-lg shadow p-6 md:p-8 border border-gray-200 mb-6">
-                <div className="flex flex-wrap justify-between items-center gap-4 mb-4 pb-3 border-b">
-                    <h3 className="text-lg font-semibold text-gray-700">Insurer Details & Contacts</h3>
-                    {/* This button now opens the modal for editing details/POCs */}
-                    <Button onClick={openEditPocModal} variant="outlineSm" className="text-xs">
-                        <i className="fas fa-pencil-alt mr-2"></i>Edit Details/Contacts
-                    </Button>
+                <div className="flex justify-between items-center mb-4 pb-3 border-b">
+                     <h3 className="text-lg font-semibold text-gray-700">Insurer Details & Codes</h3>
+                     {/* Button to open the dedicated modal */}
+                     <Button onClick={openEditInsurerModal} variant="outlineSm" className="text-xs">
+                        <i className="fas fa-pencil-alt mr-2"></i>Edit Insurer Details
+                     </Button>
                 </div>
-                {/* Display the POCs/Details from the source data */}
-                {insurerPOCsToDisplay.length === 0 ? (
-                    <p className="text-sm text-gray-500 italic">No insurer details or contacts saved.</p>
-                ) : (
+                 {insurerDetails.length === 0 ? (
+                    <p className="text-sm text-gray-500 italic">No insurer details saved. Click 'Edit Insurer Details' to add.</p>
+                 ) : (
                     <div className="overflow-x-auto">
-                        <table className="min-w-full text-sm divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-4 py-2 text-left font-medium text-gray-500 tracking-wider">Insurer Name</th>
-                                    <th className="px-4 py-2 text-left font-medium text-gray-500 tracking-wider">Agent Code</th>
-                                    <th className="px-4 py-2 text-left font-medium text-gray-500 tracking-wider">SPOC Email</th>
-                                    <th className="px-4 py-2 text-right font-medium text-gray-500 tracking-wider">Commission %</th>
+                        <table className="w-full min-w-[600px] text-sm">
+                             <thead>
+                                <tr className="bg-gray-50">
+                                    <th className="px-3 py-2 text-left font-medium text-gray-500">Insurer</th>
+                                    <th className="px-3 py-2 text-left font-medium text-gray-500">Agent Code</th>
+                                    <th className="px-3 py-2 text-left font-medium text-gray-500">SPOC Email</th>
+                                    <th className="px-3 py-2 text-right font-medium text-gray-500">Upfront %</th>
+                                    <th className="px-3 py-2 text-right font-medium text-gray-500">Trail %</th>
                                 </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {insurerPOCsToDisplay.map((item, index) => (
-                                    <tr key={item.id || index}>
-                                        <td className="px-4 py-2 whitespace-nowrap text-gray-800">{item.insurerName || '-'}</td>
-                                        <td className="px-4 py-2 whitespace-nowrap text-gray-800">{item.agent_code?.String || item.agentCode?.String || '-'}</td>
-                                        <td className="px-4 py-2 whitespace-nowrap text-gray-800">{item.pocEmail || item.spoc_email?.String || item.spocEmail?.String || '-'}</td>
-                                        <td className="px-4 py-2 whitespace-nowrap text-right text-gray-800">{item.commission_percentage?.Valid ? item.commission_percentage.Float64 + '%' : '-'}</td>
+                             </thead>
+                             <tbody className="divide-y divide-gray-200">
+                                {insurerDetails.map((detail, index) => (
+                                    <tr key={detail.id || index}>
+                                        <td className="px-3 py-2 font-medium text-gray-800">{detail.insurerName}</td>
+                                        <td className="px-3 py-2 text-gray-600">{detail.agentCode?.String || '-'}</td>
+                                        <td className="px-3 py-2 text-gray-600">{detail.spocEmail?.String || '-'}</td>
+                                        <td className="px-3 py-2 text-gray-600 text-right">{detail.upfrontCommissionPercentage?.Valid ? `${detail.upfrontCommissionPercentage.Float64}%` : '-'}</td>
+                                        <td className="px-3 py-2 text-gray-600 text-right">{detail.trailCommissionPercentage?.Valid ? `${detail.trailCommissionPercentage.Float64}%` : '-'}</td>
                                     </tr>
                                 ))}
-                            </tbody>
+                             </tbody>
                         </table>
                     </div>
-                )}
+                 )}
             </div>
 
 
@@ -272,8 +281,15 @@ const AgentProfilePage = () => {
                 onGoalUpdated={handleGoalUpdated}
                 currentGoal={agentGoal}
             />
-
+  {/* Render the new Insurer Details Modal */}
+  <EditInsurerDetailsModal
+                isOpen={isEditInsurerModalOpen}
+                onClose={closeEditInsurerModal}
+                onDetailsUpdated={handleDetailsUpdated} // Renamed callback prop
+                currentDetails={insurerDetails} // Pass the details array
+            />
         </div>
+        
     );
 };
 

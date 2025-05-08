@@ -6,7 +6,7 @@ import Footer from '../components/layout/Footer';
 
 
 const SalesPartnershipPage = () => {
-    const companyName = "18Novem Techologies";
+    const companyName = "18Novem Technologies";
     const commissionRate = 20; // As specified
 
     return (

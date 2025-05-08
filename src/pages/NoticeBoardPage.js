@@ -39,7 +39,7 @@ const NoticeBoardPage = () => {
             // --- End Authentication ---
 
             // Construct API URL with optional category filter
-            let url = 'https://api.goclientwise.com/api/notices'; // Your backend API endpoint
+            let url = 'http://localhost:8080/api/notices'; // Your backend API endpoint
             if (categoryFilter && categoryFilter !== 'All Categories') {
                 url += `?category=${encodeURIComponent(categoryFilter)}`;
             }

@@ -88,7 +88,7 @@ const EditClientModal = ({ isOpen, onClose, onClientUpdated, clientData }) => {
         console.log(`Updating Client ${clientData.id} (API Call):`, payload);
 
         try {
-           const response = await fetch(`https://api.goclientwise.com/api/clients/${clientData.id}`, {
+           const response = await fetch(`http://localhost:8080/api/clients/${clientData.id}`, {
               method: 'PUT', // Use PUT for update
               headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
               body: JSON.stringify(payload)

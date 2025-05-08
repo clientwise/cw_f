@@ -23,7 +23,7 @@ const LoginPage = ({ navigateToLanding, initialMode = 'login', onLoginSuccess })
   const handleApiCall = async (endpoint, payload) => {
       setIsLoading(true); setMessage('');
       try {
-          const response = await fetch(`https://api.goclientwise.com${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+          const response = await fetch(`http://localhost:8080${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
           const data = await response.json();
           if (!response.ok) throw new Error(data.error || `HTTP error! status: ${response.status}`);
           if (endpoint === '/login') { onLoginSuccess(data); } // Call parent on success

@@ -84,7 +84,7 @@ const UploadDocumentModal = ({ isOpen, onClose, clientId, onDocumentUploaded }) 
 
         try {
            // Make the API call
-           const response = await fetch(`https://api.goclientwise.com/api/clients/${clientId}/documents`, {
+           const response = await fetch(`http://localhost:8080/api/clients/${clientId}/documents`, {
               method: 'POST',
               headers: {
                   // DO NOT set 'Content-Type': 'multipart/form-data',

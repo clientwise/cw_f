@@ -49,7 +49,7 @@ const BulkClientUploadModal = ({ isOpen, onClose, onUploadComplete }) => {
         console.log("Uploading client file:", selectedFile.name);
 
         try {
-           const response = await fetch(`https://api.goclientwise.com/api/clients/bulk-upload`, {
+           const response = await fetch(`http://localhost:8080/api/clients/bulk-upload`, {
               method: 'POST',
               headers: { 'Authorization': `Bearer ${token}` }, // No Content-Type for FormData
               body: formData

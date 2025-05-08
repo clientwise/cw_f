@@ -11,7 +11,7 @@ const Footer = () => (
             <div>
                 <h3 className="text-lg font-semibold text-white mb-4">ClientWise</h3>
                 <p className="text-sm mb-4">The modern CRM for ambitious insurance agents in India.</p>
-                <p className="text-xs  mb-4">&copy; {new Date().getFullYear()} 18Novem Techologies. All rights reserved.</p>
+                <p className="text-xs  mb-4">&copy; {new Date().getFullYear()} 18Novem Technologies. All rights reserved.</p>
            <p  className="text-xs  mb-4">  Reach us at : getclientwise@gmail.com</p>
            <p  className="text-xs">
            Address:1413, Ocus Quantum, Sector 51, Gurugram (Haryana), 122003 INDIA </p>
@@ -20,11 +20,11 @@ const Footer = () => (
             <div>
                             <h4 className="font-semibold text-white mb-3">Quick Links</h4>
                             <ul className="space-y-2 text-sm">
-                            <li><Link to="/about-us" className="hover:text-white">About Us</Link></li>
-                            <li><Link to="/why-clientwise" className="hover:text-white">Why ClientWise?</Link></li>
+                            <li><Link to="/about-us" className="hover:text-white" scroll={true}>About Us</Link></li>
+                            <li><Link to="/why-clientwise" className="hover:text-white" scroll={true}>Why ClientWise?</Link></li>
 
-                                <li><Link to="/pricing" className="hover:text-white">Pricing</Link></li> {/* Changed from /#pricing */}
-                                <li><Link to="/blog" className="hover:text-white">Blog</Link></li>
+                                <li><Link to="/pricing" className="hover:text-white" scroll={true}>Pricing</Link></li> {/* Changed from /#pricing */}
+                                <li><Link to="/blog" className="hover:text-white" scroll={true}>Blog</Link></li>
                                 {/* NEW Links */}
                                 
                             </ul>

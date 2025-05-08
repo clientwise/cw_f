@@ -80,7 +80,7 @@ const ProductProfilePage = () => {
         try {
             // --- Replace placeholder fetch with actual API call ---
             console.log(`FETCHING: /api/products/${productId}`);
-            const url = `https://api.goclientwise.com/api/products/${productId}`;
+            const url = `http://localhost:8080/api/products/${productId}`;
             const response = await fetch(url, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
