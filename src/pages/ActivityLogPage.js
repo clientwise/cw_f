@@ -126,7 +126,7 @@ const ActivityLogPage = () => {
         try {
             // Set loading true before fetch
             setIsLoading(true);
-            const response = await fetch(`http://localhost:8080/api/activity?${params.toString()}`, {
+            const response = await fetch(`https://api.goclientwise.com/api/activity?${params.toString()}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (!response.ok) {

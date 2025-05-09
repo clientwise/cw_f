@@ -37,7 +37,7 @@ const CreateSegmentModal = ({ isOpen, onClose, onSegmentCreated }) => {
 
         try {
            // --- Actual API Call ---
-           const response = await fetch(`http://localhost:8080/api/marketing/segments`, {
+           const response = await fetch(`https://api.goclientwise.com/api/marketing/segments`, {
               method: 'POST',
               headers: {
                   'Authorization': `Bearer ${token}`,

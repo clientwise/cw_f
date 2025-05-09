@@ -47,8 +47,8 @@ const AgentProfilePage = () => {
 
         const headers = { 'Authorization': `Bearer ${token}` };
         // Adjust API endpoint if your profile endpoint doesn't include InsurerPOCs
-        const profileUrl = `http://localhost:8080/api/agents/profile`; // Assumes this returns FullAgentProfileWithPOCs structure
-        const goalUrl = `http://localhost:8080/api/agents/goals`;
+        const profileUrl = `https://api.goclientwise.com/api/agents/profile`; // Assumes this returns FullAgentProfileWithPOCs structure
+        const goalUrl = `https://api.goclientwise.com/api/agents/goals`;
 
         // Helper to fetch and handle errors for individual endpoints
         const fetchApi = async (url, setter, isList = false) => {
@@ -148,7 +148,7 @@ const AgentProfilePage = () => {
     const profilePart = agentProfileData;
     // Display POCs directly from the source data
     // const insurerPOCsToDisplay = agentProfileData?.InsurerPOCs || [];
-    const insurerDetails = agentProfileData?.InsurerRelations || []; // Use new field name
+    const insurerDetails = agentProfileData?.insurerRelations || []; // Use new field name
 
 
     return (

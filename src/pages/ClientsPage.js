@@ -34,7 +34,7 @@ const ClientsPage = () => {
     useEffect(() => {
         if (userInfo?.userId) {
             // Construct the base URL carefully
-            const baseUrl = window.location.origin; // Gets http://localhost:8080 or your domain
+            const baseUrl = window.location.origin; // Gets https://api.goclientwise.com or your domain
             const formPath = '/onboarding_form.html'; // Assumes form is in public folder
             const fullLink = `${baseUrl}${formPath}?agentId=${userInfo.userId}`;
             setOnboardingLink(fullLink);
@@ -47,13 +47,13 @@ const ClientsPage = () => {
         setIsLoading(true); setError(null);
         const token = localStorage.getItem('authToken');
         if (!token) { setError("Authentication error: Not logged in."); setIsLoading(false); return; }
-// http://localhost:8080
+// https://api.goclientwise.com
         const params = new URLSearchParams();
         if (statusFilter && statusFilter !== 'All Statuses') params.append('status', statusFilter);
         if (searchTerm) params.append('search', searchTerm);
         // Add pagination params later if needed: params.append('limit', '50'); params.append('offset', '0');
 
-        const url = `http://localhost:8080/api/clients?${params.toString()}`;
+        const url = `https://api.goclientwise.com/api/clients?${params.toString()}`;
         try {
             const response = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
             if (!response.ok) { let e = `Err: ${response.status}`; try { const d = await response.json(); e = d.error || e; } catch {} throw new Error(e); }

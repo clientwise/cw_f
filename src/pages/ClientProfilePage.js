@@ -180,7 +180,7 @@ const [linkError, setLinkError] = useState('');
         if (!token) { setError("Authentication error: Not logged in."); setIsLoading(false); return; }
 
         const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
-        const baseUrl = 'http://localhost:8080/api/clients';
+        const baseUrl = 'https://api.goclientwise.com/api/clients';
 
         const fetchApi = async (url, setter, isList = false) => {
              try {
@@ -368,7 +368,7 @@ const handleGeneratePortalLink = async () => {
     }
 
     //  const clientId = 'your_client_id';  <--  No longer hardcoded
-    const apiUrl = `http://localhost:8080/api/clients/6/generate-portal-link`; // Construct the API URL
+    const apiUrl = `https://api.goclientwise.com/api/clients/6/generate-portal-link`; // Construct the API URL
 
     try {
        

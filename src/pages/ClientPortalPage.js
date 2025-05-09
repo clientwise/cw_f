@@ -96,7 +96,7 @@ const ClientPortalPage = () => {
         setError(null); // Clear previous errors on fetch attempt
 
         try {
-            const response = await fetch(`http://localhost:8080/api/portal/client/${token}`);
+            const response = await fetch(`https://api.goclientwise.com/api/portal/client/${token}`);
             if (!response.ok) { let e=`Error (${response.status})`; try{const d=await response.json();e=d.error||e;}catch{} if(response.status===404)e="Invalid/expired link."; throw new Error(e); }
             const data = await response.json();
             setClientViewData(data);
@@ -131,7 +131,7 @@ const ClientPortalPage = () => {
         const formData = new FormData();
         formData.append('title', docTitle); formData.append('documentType', docType); formData.append('file', docFile);
         try {
-            const response = await fetch(`http://localhost:8080/api/portal/client/${token}/documents`, { method: 'POST', body: formData });
+            const response = await fetch(`https://api.goclientwise.com/api/portal/client/${token}/documents`, { method: 'POST', body: formData });
             const result = await response.json();
             if (!response.ok) { throw new Error(result.error || `Upload failed (${response.status})`); }
             setUploadSuccess(`Document '${result.title}' uploaded successfully!`);

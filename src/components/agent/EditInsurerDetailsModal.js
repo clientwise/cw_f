@@ -14,22 +14,33 @@ const EditInsurerDetailsModal = ({ isOpen, onClose, onDetailsUpdated, currentDet
     // API/UI State
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
+    const [availableInsurers, setAvailableInsurers] = useState([]);
 
     // Pre-fill form when modal opens or currentDetails change
     useEffect(() => {
+        const fetchInsurers = async () => {
+            try {
+                const res = await fetch("https://api.goclientwise.com/api/unique-insurers");
+                const data = await res.json();
+                if (res.ok && Array.isArray(data.insurers)) {
+                    setAvailableInsurers(data.insurers);
+                } else {
+                    console.error("Failed to fetch insurer list:", data);
+                }
+            } catch (err) {
+                console.error("Error fetching insurer list:", err);
+            }
+        };
         if (isOpen) {
-            // Initialize details state from prop, ensuring all fields exist
+            fetchInsurers();
+    
             const initialDetails = (currentDetails || []).slice(0, MAX_INSURERS).map(d => ({
                 insurerName: d.insurerName || '',
-                agentCode: d.agentCode?.String || '', // Handle NullString
-                spocEmail: d.spocEmail?.String || '', // Handle NullString
-                upfrontCommissionPercentage: d.upfrontCommissionPercentage?.Valid ? d.upfrontCommissionPercentage.Float64.toString() : '', // Handle NullFloat64
-                trailCommissionPercentage: d.trailCommissionPercentage?.Valid ? d.trailCommissionPercentage.Float64.toString() : '', // Handle NullFloat64
+                agentCode: d.agentCode?.String || '',
+                spocEmail: d.spocEmail?.String || '',
+                upfrontCommissionPercentage: d.upfrontCommissionPercentage?.Valid ? d.upfrontCommissionPercentage.Float64.toString() : '',
+                trailCommissionPercentage: d.trailCommissionPercentage?.Valid ? d.trailCommissionPercentage.Float64.toString() : '',
             }));
-            // Ensure at least one empty row if initialDetails is empty? Optional.
-            // if (initialDetails.length === 0) {
-            //     initialDetails.push({ insurerName: '', agentCode: '', spocEmail: '', upfrontCommissionPercentage: '', trailCommissionPercentage: '' });
-            // }
             setDetails(initialDetails);
             setError('');
             setIsSubmitting(false);
@@ -128,7 +139,7 @@ const EditInsurerDetailsModal = ({ isOpen, onClose, onDetailsUpdated, currentDet
         console.log("Updating Insurer Relations (API Call):", payload);
 
         try {
-           const response = await fetch(`http://localhost:8080/api/agents/insurer-relations`, { // Updated endpoint
+           const response = await fetch(`https://api.goclientwise.com/api/agents/insurer-relations`, { // Updated endpoint
               method: 'PUT',
               headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
               body: JSON.stringify(payload)
@@ -175,7 +186,18 @@ const EditInsurerDetailsModal = ({ isOpen, onClose, onDetailsUpdated, currentDet
                         {details.map((detail, index) => (
                             <div key={index} className="grid grid-cols-12 gap-2 items-start border-b pb-3 last:border-b-0">
                                 <div className="col-span-3">
-                                     <InputField id={`ins-name-${index}`} value={detail.insurerName} onChange={e => handleDetailChange(index, 'insurerName', e.target.value)} placeholder="Insurer Name" noLabel required={!!(detail.agentCode || detail.spocEmail || detail.upfrontCommissionPercentage || detail.trailCommissionPercentage)} />
+                                    <select
+                                        id={`ins-name-${index}`}
+                                        value={detail.insurerName}
+                                        onChange={(e) => handleDetailChange(index, 'insurerName', e.target.value)}
+                                        className="w-full border rounded-md px-2 py-1 text-sm"
+                                        required={!!(detail.agentCode || detail.spocEmail || detail.upfrontCommissionPercentage || detail.trailCommissionPercentage)}
+                                    >
+                                        <option value="">Select Insurer</option>
+                                        {availableInsurers.map((insurer, i) => (
+                                            <option key={i} value={insurer}>{insurer}</option>
+                                        ))}
+                                    </select>
                                 </div>
                                  <div className="col-span-2">
                                      <InputField id={`ins-code-${index}`} value={detail.agentCode} onChange={e => handleDetailChange(index, 'agentCode', e.target.value)} placeholder="Code" noLabel />
