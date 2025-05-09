@@ -36,7 +36,7 @@ const LogInteractionModal = ({ isOpen, onClose, clientId, onLogAdded }) => {
         console.log("Submitting Interaction Log:", payload);
 
         try {
-           const response = await fetch(`http://localhost:8080/api/clients/${clientId}/communications`, {
+           const response = await fetch(`https://api.goclientwise.com/api/clients/${clientId}/communications`, {
               method: 'POST',
               headers: {
                   'Authorization': `Bearer ${token}`,

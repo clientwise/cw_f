@@ -59,7 +59,7 @@ const CommissionsPage = () => {
         if (endDate) params.append('endDate', endDate);
         // TODO: Add status filter (paid/pending) if implemented in backend
 
-        const url = `http://localhost:8080/api/commissions?${params.toString()}`;
+        const url = `https://api.goclientwise.com/api/commissions?${params.toString()}`;
         console.log("Fetching commissions from:", url);
 
         try {

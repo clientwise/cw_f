@@ -90,7 +90,7 @@ const GenerateProposalModal = ({ isOpen, onClose, product }) => {
                 }
 
                 try {
-                    const response = await fetch('http://localhost:8080/api/clients', {
+                    const response = await fetch('https://api.goclientwise.com/api/clients', {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${token}`,

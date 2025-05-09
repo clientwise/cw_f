@@ -63,7 +63,7 @@ const ProductsPage = () => {
         if (searchTerm) params.append('search', searchTerm);
         // TODO: Add limit and offset params
 
-        const url = `http://localhost:8080/api/products?${params.toString()}`;
+        const url = `https://api.goclientwise.com/api/products?${params.toString()}`;
 
         try {
             const response = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
@@ -130,7 +130,7 @@ const ProductsPage = () => {
                                     <h3 className="text-md font-semibold text-gray-800 mb-1">{product.name}</h3>
                                     <div className="flex items-center text-sm text-gray-500 mb-3"> <img src={product.insurerLogo?.String || `https://placehold.co/40x40/cccccc/ffffff?text=${product.insurer?.charAt(0) || 'L'}`} alt={product.insurer} className="w-4 h-4 mr-1.5 rounded-full object-contain bg-gray-100" onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/40x40/cccccc/ffffff?text=L'; }}/> {product.insurer} </div>
                                     <p className="text-sm text-gray-600 mb-4 flex-grow">{product.description?.String || 'No description available.'}</p>
-                                    <Link to={`/dashboard/products/${product.id}`} className="mt-auto text-sm font-medium text-[--brand-purple] hover:text-[--brand-purple-hover]" style={{'--brand-purple': themeColors.brandPurple, '--brand-purple-hover': themeColors.brandPurpleHover}}> View Details &rarr; </Link>
+                                    <Link to={`/dashboard/products/${product.product_id}`} className="mt-auto text-sm font-medium text-[--brand-purple] hover:text-[--brand-purple-hover]" style={{'--brand-purple': themeColors.brandPurple, '--brand-purple-hover': themeColors.brandPurpleHover}}> View Details &rarr; </Link>
                                 </div>
                             </div>
                         ))
