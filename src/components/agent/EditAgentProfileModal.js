@@ -51,22 +51,22 @@ const EditAgentProfileModal = ({ isOpen, onClose, onProfileUpdated, currentProfi
     }, [isOpen, currentProfileData]);
 
     // --- Handlers for managing POC list ---
-    const handlePocChange = (index, field, value) => {
-        const updatedPocs = [...pocs];
-        updatedPocs[index][field] = value;
-        setPocs(updatedPocs);
-    };
+    // const handlePocChange = (index, field, value) => {
+    //     const updatedPocs = [...pocs];
+    //     updatedPocs[index][field] = value;
+    //     setPocs(updatedPocs);
+    // };
 
-    const addPocRow = () => {
-        if (pocs.length < MAX_POCS) {
-            setPocs([...pocs, { insurerName: '', pocEmail: '' }]);
-        }
-    };
+    // const addPocRow = () => {
+    //     if (pocs.length < MAX_POCS) {
+    //         setPocs([...pocs, { insurerName: '', pocEmail: '' }]);
+    //     }
+    // };
 
-    const removePocRow = (index) => {
-        const updatedPocs = pocs.filter((_, i) => i !== index);
-        setPocs(updatedPocs);
-    };
+    // const removePocRow = (index) => {
+    //     const updatedPocs = pocs.filter((_, i) => i !== index);
+    //     setPocs(updatedPocs);
+    // };
     // ------------------------------------
 
     const handleSubmit = async (e) => {
@@ -154,31 +154,7 @@ const EditAgentProfileModal = ({ isOpen, onClose, onProfileUpdated, currentProfi
                     </section>
 
                     {/* Insurer Contacts Section */}
-                    <section className="pt-4 border-t">
-                         <h3 className="text-md font-semibold text-gray-600 mb-3">Insurer Contacts (Max {MAX_POCS})</h3>
-                         <div className="space-y-3">
-                            {pocs.map((poc, index) => (
-                                <div key={index} className="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center">
-                                    <div className="sm:col-span-5">
-                                         <InputField id={`poc-insurer-${index}`} label={`Insurer ${index + 1}`} value={poc.insurerName} onChange={e => handlePocChange(index, 'insurerName', e.target.value)} placeholder="Insurer Name" noLabel={index > 0} />
-                                    </div>
-                                     <div className="sm:col-span-6">
-                                         <InputField id={`poc-email-${index}`} label={`POC Email ${index + 1}`} type="email" value={poc.pocEmail} onChange={e => handlePocChange(index, 'pocEmail', e.target.value)} placeholder="pointofcontact@insurer.com" noLabel={index > 0} />
-                                     </div>
-                                     <div className="sm:col-span-1 text-right pt-3 sm:pt-0">
-                                         <button type="button" onClick={() => removePocRow(index)} className="text-red-500 hover:text-red-700" title="Remove Row">
-                                             <i className="fas fa-trash-alt"></i>
-                                         </button>
-                                     </div>
-                                </div>
-                            ))}
-                         </div>
-                         {pocs.length < MAX_POCS && (
-                            <Button type="button" onClick={addPocRow} variant="outlineSm" className="mt-3 text-xs">
-                                <i className="fas fa-plus mr-1"></i> Add Insurer Contact
-                            </Button>
-                         )}
-                    </section>
+                    
 
 
                      <div className="flex justify-end space-x-3 pt-6 border-t mt-6">

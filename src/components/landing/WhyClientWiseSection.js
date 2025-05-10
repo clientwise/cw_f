@@ -18,7 +18,7 @@ const WhyClientWiseSection = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 <div className="animate-on-scroll">
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8 leading-tight font-serif"> Finally, a CRM That <span className="text-[--brand-purple]">Works As Hard As You Do</span>. </h2>
-                    <p className="text-lg text-gray-600 mb-10"> Stop wasting time fighting clunky software. ClientWise is built from the ground up for the unique needs of Indian insurance professionals, helping you close more deals and build lasting client relationships. </p>
+                    <p className="text-lg text-gray-600 mb-10"> Stop wasting time fighting diaries, excel sheets or clunky softwares. ClientWise is built from the ground up for the unique needs of Indian insurance professionals and companies, helping you close more deals and build lasting client relationships. </p>
                     <div className="space-y-4">
                         {features.map((feature, index) => (
                             <div key={index} onClick={() => setActiveIndex(index)} className={`p-4 md:p-6 rounded-lg border cursor-pointer transition-all duration-300 ease-in-out animate-on-scroll delay-${index * 100} ${ activeIndex === index ? 'bg-purple-50 border-[--brand-purple] shadow-md scale-[1.02]' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50' }`} style={{'--brand-purple': themeColors.brandPurple}}>

@@ -1,47 +1,72 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../components/layout/Header';   
+import Header from '../components/layout/Header';   
 import Footer from '../components/layout/Footer';
 
 const DisclaimerPage = () => {
-     const companyName = "18Novem Technologies";
+    const companyName = "18Novem Technologies";
+    const websiteUrl = "https://www.goclientwise.com"; // Replace with your actual website URL
+    const lastUpdatedDate = "May 10, 2025"; // Update as needed
+
 
     return (
         <div>
-<Header>    </Header>
-<div  className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto bg-white p-8 shadow rounded-lg">
-                <h1 className="text-3xl font-bold text-gray-800 mb-6">Disclaimer</h1>
+            <Header />
+            <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-3xl mx-auto bg-white p-8 sm:p-10  rounded-lg">
+                    <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-8 text-center">Disclaimer</h1>
 
-                <div className="prose prose-indigo max-w-none text-gray-700 space-y-4">
-                     <p>Last Updated: April 24, 2025</p>
+                    <div className="prose prose-indigo max-w-none text-gray-700 space-y-6">
+                        <p className="text-sm text-gray-600">Last Updated: {lastUpdatedDate}</p>
 
-                    <p>The information contained on the ClientWise website and within the ClientWise software (the "Service") is for general information purposes only.</p>
+                        <p>The information contained on the ClientWise website (<a href={websiteUrl} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">{websiteUrl}</a>) and within the ClientWise software (collectively, the "Service") is for general information and organizational purposes only. While {companyName} strives to provide a robust and reliable platform, including taking reasonable steps to protect user interests and data, the use of the Service is subject to the disclaimers outlined below.</p>
 
-                    <p>{companyName} assumes no responsibility for errors or omissions in the contents on the Service.</p>
+                        <p>{companyName} assumes no responsibility for errors or omissions in the contents of the Service. The information and features are provided on an "as is" and "as available" basis without any warranties, express or implied.</p>
 
-                    <p>In no event shall {companyName} be liable for any special, direct, indirect, consequential, or incidental damages or any damages whatsoever, whether in an action of contract, negligence or other tort, arising out of or in connection with the use of the Service or the contents of the Service. {companyName} reserves the right to make additions, deletions, or modification to the contents on the Service at any time without prior notice.</p>
+                        <h2 className="text-xl font-semibold mt-6 mb-3">No Guarantees and Limitation of Liability</h2>
+                        <p>In no event shall {companyName}, its directors, employees, partners, agents, suppliers, or affiliates, be liable for any special, direct, indirect, consequential, or incidental damages or any damages whatsoever, including but not limited to loss of profits, loss of data, loss of business, business interruption, fraud perpetrated by third parties or users, or other intangible losses, whether in an action of contract, negligence or other tort, arising out of or in connection with the use of the Service or the contents of the Service.</p>
+                        <p>{companyName} reserves the right to make additions, deletions, or modifications to the contents on the Service at any time without prior notice.</p>
+                        <p>While we implement security measures, {companyName} does not warrant that the website or the Service is free of viruses or other harmful components, or that it will be immune from unauthorized access or cyber-attacks.</p>
 
-                    <p>{companyName} does not warrant that the website is free of viruses or other harmful components.</p>
+                        <h2 className="text-xl font-semibold mt-6 mb-3">Service Availability and Performance</h2>
+                        <p>{companyName} endeavors to ensure the Service is available and running smoothly. However, the Service may occasionally be unavailable due to maintenance, upgrades, technical issues, or other reasons beyond our direct control (e.g., internet service provider outages, cloud hosting disruptions). We shall not be liable for any loss or inconvenience caused by such downtime.</p>
 
-                    <h2>Financial Disclaimer</h2>
-                    <p>The Service provides tools for insurance agents and advisors but does not provide financial, investment, or insurance advice. Any information, calculations, estimations (including AI-generated suggestions or coverage estimations), or recommendations provided by the Service are for informational and organizational purposes only. You are solely responsible for the advice you provide to your clients and for verifying the accuracy and suitability of any information generated by the Service before presenting it to clients or making decisions based upon it. Always consult with qualified professionals and verify details directly with insurance providers.</p>
+                        <h2 className="text-xl font-semibold mt-6 mb-3">Artificial Intelligence (AI) Features</h2>
+                        <p>ClientWise may incorporate features that utilize our proprietary Artificial Intelligence (AI) models or integrate with third-party AI services. These AI features are designed to provide suggestions, estimations, or automate certain tasks based on the data you provide.</p>
+                        <p>You acknowledge and agree that:</p>
+                        <ul className="list-disc pl-5 space-y-1 text-sm">
+                            <li>AI technologies are constantly evolving, and their outputs may not always be perfectly accurate, complete, or suitable for your specific needs. AI-generated content or suggestions may sometimes be incorrect, incomplete, or not work as intended.</li>
+                            <li>You are solely responsible for reviewing, verifying, and validating any information, suggestions, or outputs generated by AI features before relying on them or presenting them to your clients.</li>
+                            <li>{companyName} is not responsible for any errors, omissions, or inaccuracies in AI-generated content, nor for any decisions made or actions taken based on such content. We disclaim any liability for any loss of business, financial loss, or other damages arising from the use of or reliance on AI features within the Service.</li>
+                        </ul>
 
-                    <h2>External Links Disclaimer</h2>
-                    <p>The ClientWise website may contain links to external websites that are not provided or maintained by or in any way affiliated with {companyName}. Please note that {companyName} does not guarantee the accuracy, relevance, timeliness, or completeness of any information on these external websites.</p>
+                        <h2 className="text-xl font-semibold mt-6 mb-3">Financial & Professional Advice Disclaimer</h2>
+                        <p>The Service provides tools for insurance agents and advisors but <strong>does not provide financial, investment, legal, tax, or insurance advice.</strong> Any information, calculations, estimations (including AI-generated suggestions or coverage estimations), or recommendations provided by the Service are for informational and organizational purposes only and should not be considered as professional advice.</p>
+                        <p>You, as the user and insurance professional, are solely responsible for the advice you provide to your clients. It is your responsibility to verify the accuracy and suitability of any information generated by the Service with official sources (e.g., insurance provider documentation) before presenting it to clients or making decisions based upon it. Always consult with qualified professionals for specific advice tailored to individual circumstances.</p>
+                        <p>{companyName} is not a licensed insurance provider, broker, or advisor and does not require any IRDAI license to offer this software service. We do not endorse or recommend any specific insurance products.</p>
 
-                     <h2>Affiliate Disclaimer</h2>
-                     <p>[Placeholder: Include if you use affiliate links.]</p>
+                        <h2 className="text-xl font-semibold mt-6 mb-3">Data Accuracy and User Responsibility</h2>
+                        <p>The accuracy and utility of the Service, including any reports or insights generated, depend heavily on the accuracy and completeness of the data entered by you. You are solely responsible for all data you input into ClientWise. {companyName} is not liable for any issues, errors, or losses arising from inaccurate, incomplete, or improperly managed user-generated data.</p>
 
+
+                        <h2 className="text-xl font-semibold mt-6 mb-3">External Links Disclaimer</h2>
+                        <p>The ClientWise website or Service may contain links to external websites that are not provided or maintained by or in any way affiliated with {companyName}. Please note that {companyName} does not guarantee the accuracy, relevance, timeliness, or completeness of any information on these external websites. The inclusion of any links does not necessarily imply a recommendation or endorse the views expressed within them.</p>
+
+                        <h2 className="text-xl font-semibold mt-6 mb-3">Affiliate Disclaimer</h2>
+                        <p>This section will be updated if {companyName} engages in affiliate marketing. Currently, we do not have affiliate links that would require a specific disclaimer here.</p>
+                        
+                        <p className="mt-6">By using the ClientWise Service, you acknowledge that you have read, understood, and agree to this disclaimer. If you do not agree with any part of this disclaimer, you should not use the Service.</p>
+
+                    </div>
+
+                    <div className="mt-10 text-center">
+                        <Link to="/" className="text-indigo-600 hover:text-indigo-800 text-sm">
+                            &larr; Back to Home
+                        </Link>
+                    </div>
                 </div>
-
-                <div className="mt-8 text-center">
-                    <Link to="/" className="text-indigo-600 hover:text-indigo-800 text-sm">
-                        &larr; Back to Home
-                    </Link>
-                </div>
-            </div></div>
-            <Footer></Footer>
+            </div>
+            <Footer />
         </div>
     );
 };

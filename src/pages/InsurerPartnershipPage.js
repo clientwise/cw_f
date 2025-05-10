@@ -292,7 +292,8 @@ const InsurerPartnershipPage = () => {
                         ) : (
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <p className="text-xs sm:text-sm text-gray-600 text-center mb-4">
-                                   We're excited to explore how we can work together. Please provide some initial details.
+                                   We're excited to 18novem1987@gmail.com
+ we can work together. Please provide some initial details.
                                 </p>
                                 <FormInput
                                     id="companyName"
