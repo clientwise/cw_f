@@ -13,7 +13,7 @@ const themeColors = { brandPurple: '#5a239e' };
                 <div className="text-center animate-on-scroll delay-100"> <div className="inline-flex items-center justify-center p-4 bg-purple-100 rounded-xl mb-5 shadow-sm"> <i className="fas fa-robot text-3xl text-[--brand-purple]" style={{'--brand-purple': themeColors.brandPurple}}></i> </div> <h3 className="text-xl font-semibold text-gray-900 mb-2">AI Sales Assistant</h3> <p className="text-gray-600 text-sm"> Get smart reminders... </p> </div>
                 <div className="text-center animate-on-scroll delay-200"> <div className="inline-flex items-center justify-center p-4 bg-purple-100 rounded-xl mb-5 shadow-sm"> <i className="fas fa-chart-line text-3xl text-[--brand-purple]" style={{'--brand-purple': themeColors.brandPurple}}></i> </div> <h3 className="text-xl font-semibold text-gray-900 mb-2">Performance Analytics</h3> <p className="text-gray-600 text-sm"> Track pipeline health... </p> </div>
             </div>
-             <div className="text-center mt-16 animate-on-scroll delay-300"> <Button href="#pricing" variant="brand">Explore All Features</Button> </div>
+             <div className="text-center mt-16 animate-on-scroll delay-300"> <a href="/features"  rel="noopener noreferrer" target='_blank'><Button  variant="brand">Explore All Features</Button></a> </div>
         </div>
     </section>
 );

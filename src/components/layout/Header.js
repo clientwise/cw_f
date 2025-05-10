@@ -15,9 +15,26 @@ const Header = ({ navigateToLogin }) => (
                 <Link to="/about-us"  className="text-[--brand-beige] hover:text-[--brand-beige-hover] font-medium text-sm">About Us</Link>
             </div>
             <div className="hidden md:flex items-center">
-              <Link to='login'><Button  variant="primary" className="mr-2">Login</Button></Link>
-              <Link to='login'> <Button variant="primary">Sign Up</Button></Link>
-            </div>
+            <a 
+                                href="/login" // Assuming /login is the path. If it's a full external URL, use that.
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="w-full sm:w-auto" // Added for consistency if Button component was handling this
+                            >
+                                <Button variant="primary" className="w-full"> {/* Ensure Button takes full width if needed or adjust styling */}
+                                    Sign Up Free
+                                </Button>
+                            </a>     
+                            
+                            <a 
+                                href="/login" // Assuming /login is the path. If it's a full external URL, use that.
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="w-full sm:w-auto" // Added for consistency if Button component was handling this
+                            >
+                                <Button variant="primary" className="w-full"> {/* Ensure Button takes full width if needed or adjust styling */}
+Login                                </Button>
+                            </a>            </div>
             <button id="mobile-menu-button" className="md:hidden focus:outline-none text-[--brand-beige] hover:text-[--brand-beige-hover]">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 {/* TODO: Implement mobile menu toggle logic */}

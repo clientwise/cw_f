@@ -30,8 +30,26 @@ AI Powered Client and Agency Management software
             </div>
             {/* CTA Buttons */}
              <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4 animate-on-scroll delay-400">
-                <Link to="login"> <Button variant="primary" className="w-full sm:w-auto"> Sign Up Free </Button></Link>
-                <Link to="login">  <Button  variant="primary" className="w-full sm:w-auto"> Login </Button></Link>
+             <a 
+                                href="/login" // Assuming /login is the path. If it's a full external URL, use that.
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="w-full sm:w-auto" // Added for consistency if Button component was handling this
+                            >
+                                <Button variant="primary" className="w-full"> {/* Ensure Button takes full width if needed or adjust styling */}
+                                    Sign Up Free
+                                </Button>
+                            </a>   
+                            
+                            <a 
+                                href="/login" // Assuming /login is the path. If it's a full external URL, use that.
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="w-full sm:w-auto" // Added for consistency if Button component was handling this
+                            >
+                                <Button variant="primary" className="w-full"> {/* Ensure Button takes full width if needed or adjust styling */}
+Login                                </Button>
+                            </a>  
             </div>
             {/* App Badges */}
              {/* <div className="mt-10 flex justify-center items-center space-x-4 animate-on-scroll delay-500">
