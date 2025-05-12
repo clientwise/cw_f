@@ -156,7 +156,7 @@ const HeroSection = () => {
                         Increase Sales with <span className="text-yellow-300">AI </span>
                     </h1>
                     <p className="text-xl md:text-2xl text-white opacity-90 mb-8 max-w-3xl mx-auto animate-fade-in-down delay-100">
-                        360 &#176; Software, for everyone in Insurance Industry.
+                        360 &#176; AI driven Software for  Insurance Agents and Agencies
                     </p>
                     
                     <div className="flex flex-wrap justify-center items-center gap-3 md:gap-4 mb-10 max-w-4xl mx-auto animate-fade-in-up delay-200">

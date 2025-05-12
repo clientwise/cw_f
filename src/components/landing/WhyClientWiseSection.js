@@ -6,9 +6,9 @@ const themeColors = { brandPurple: '#5a239e', purple50: '#f5f3ff' };
 const WhyClientWiseSection = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const features = [
-      { icon: 'fas fa-brain', title: 'AI-Powered Sales Intelligence', description: 'Unlock hidden opportunities with AI policy recommendations, automated reminders, and smart client insights. Focus on selling, let AI handle the busywork.', image: 'https://placehold.co/400x400/5a239e/f6eeb4?text=AI+Sales+Visual' },
-      { icon: 'fas fa-tachometer-alt', title: 'Effortless Agency Management', description: 'Gain a crystal-clear view of your entire operation. Manage agents, track commissions automatically, analyze performance, and streamline communication – all in one place.', image: 'https://placehold.co/400x400/703abc/f6eeb4?text=Agency+Mgmt+Visual' },
-      { icon: 'fas fa-handshake', title: 'Build Trust & Authority', description: 'Impress clients with instant access to policy details, personalized communication, and professional co-branded marketing materials and websites.', image: 'https://placehold.co/400x400/3b0770/f6eeb4?text=Trust+Visual' },
+      { icon: 'fas fa-tachometer-alt', title: 'Personal AI Agent ', description: 'Get an personalized AI Agent to guide you every week on Sales, and Performance. Track Business, Leads, Commissions, Renewals,  Upcoming Meetings easily ', image: 'https://placehold.co/400x400/703abc/f6eeb4?text=Agency+Mgmt+Visual' },
+    { icon: 'fas fa-brain', title: '360 View of Client with AI Recommendations', description: ' Get Cover Overview, AI Based Recommendations, Create Client Portals, Store Documents and Policies, Setup Reminders and Call Logs at a single place', image: 'https://placehold.co/400x400/5a239e/f6eeb4?text=AI+Sales+Visual' },
+      { icon: 'fas fa-handshake', title: 'Real Time  Upfront and Trail Commissions', description: 'Manage and View your commissions real time, with active reminders and support for Renewal business ', image: 'https://placehold.co/400x400/3b0770/f6eeb4?text=Trust+Visual' },
     ];
 
     return (
@@ -17,8 +17,8 @@ const WhyClientWiseSection = () => {
         <div className="container mx-auto px-6 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 <div className="animate-on-scroll">
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8 leading-tight font-serif"> Finally, a CRM That <span className="text-[--brand-purple]">Works As Hard As You Do</span>. </h2>
-                    <p className="text-lg text-gray-600 mb-10"> Stop wasting time fighting diaries, excel sheets or clunky softwares. ClientWise is built from the ground up for the unique needs of Indian insurance professionals and companies, helping you close more deals and build lasting client relationships. </p>
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8 leading-tight font-serif">CRM <span className="text-[--brand-purple]">built for Insurance Business </span> </h2>
+                    {/* <p className="text-lg text-gray-600 mb-10"> Stop wasting time fighting diaries, excel sheets or clunky softwares. ClientWise is built from the ground up for the unique needs of Indian insurance professionals and companies, helping you close more deals and build lasting client relationships. </p> */}
                     <div className="space-y-4">
                         {features.map((feature, index) => (
                             <div key={index} onClick={() => setActiveIndex(index)} className={`p-4 md:p-6 rounded-lg border cursor-pointer transition-all duration-300 ease-in-out animate-on-scroll delay-${index * 100} ${ activeIndex === index ? 'bg-purple-50 border-[--brand-purple] shadow-md scale-[1.02]' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50' }`} style={{'--brand-purple': themeColors.brandPurple}}>
