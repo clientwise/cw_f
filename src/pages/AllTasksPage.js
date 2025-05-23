@@ -78,9 +78,40 @@ const AllTasksPage = () => {
     };
 
     // Placeholder
-    const handleCompleteTask = (taskId) => {
-        alert(`Complete Task ${taskId} - Not Implemented`);
-        // TODO: Implement API call (e.g., PUT /api/tasks/{taskId}/complete) and refresh
+    const handleCompleteTask = async (taskId) => {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            setError("Authentication error");
+            return;
+        }
+    
+        try {
+            const response = await fetch('https://api.goclientwise.com/api/task/status', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    taskId: taskId,
+                    status: 'completed'
+                })
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to update task status');
+            }
+    
+            // Optionally show success notification
+            alert('Task marked as completed');
+    
+            // Refresh the tasks
+            fetchTasks();
+    
+        } catch (err) {
+            setError(err.message);
+        }
     };
 
     return (
