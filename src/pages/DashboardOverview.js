@@ -186,7 +186,7 @@ const DashboardOverview = () => {
         const payload = { description, dueDate: formattedDueDate, isUrgent: false };
 
         try {
-            const response = await fetch(`http://localhost:8080/api/clients/${clientId}/tasks`, {
+            const response = await fetch(`http://api.goclientwise.com/api/clients/${clientId}/tasks`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -308,7 +308,7 @@ ${JSON.stringify(jsonPayload, null, 2)}
         if (!token) { setError("Authentication error: Not logged in."); setIsLoading(false); return; }
 
         const headers = { 'Authorization': `Bearer ${token}` };
-        const baseApiUrl = 'http://localhost:8080/api';
+        const baseApiUrl = 'https://api.goclientwise.com/api';
         const fetchDataFor = async (url) => {
             const response = await fetch(url, { headers });
             if (!response.ok) {
