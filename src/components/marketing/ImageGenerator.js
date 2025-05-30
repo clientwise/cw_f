@@ -37,15 +37,19 @@ const ImageGenerator = () => {
         setGeneratedImage(null);
 
         // Construct a detailed prompt from the user's selections
-        const finalPrompt = `
-            Generate a high-quality, professional image suitable for an insurance agency's marketing.
-            The image must be strictly safe-for-work (SFW), positive, and welcoming.
-            - Art Style: ${style}.
-            - Occasion/Theme: ${occasion}.
-            - Color Palette: ${colorTheme}.
-            - Core Subject: ${description}.
-        `;
-        
+  const finalPrompt = `
+      Create a stunning, high-resolution image perfect for an insurance marketing campaign.
+    The visual should evoke feelings of trust, security, and peace of mind.
+    It must be appropriate for all audiences (SFW) and convey a positive, inviting atmosphere.
+
+    Crucially, the image must contain **ZERO text**. This includes no words, no letters, no numbers, no symbols, no logos, no watermarks, and no discernible typography of any kind. The focus should be purely on the visual composition.
+
+    Consider these elements for generation:   
+    - Art Style: ${style}.
+    - Occasion/Theme: ${occasion}.
+    - Color Palette: ${colorTheme}.
+    - Core Subject: ${description}.
+`;
         // Structure the request body according to the Gemini API specification
         const requestBody = {
             "contents": [
@@ -64,7 +68,7 @@ const ImageGenerator = () => {
             });
 
             const responseData = await response.json();
-            console.log("API Response:", responseData);
+            console.log("API Ressponse:", responseData);
             if (!response.ok) {
                 // Handle errors from the API
                 const errorDetails = responseData.error?.message || 'An unknown error occurred.';
@@ -95,9 +99,6 @@ const ImageGenerator = () => {
                 <i className="fas fa-magic mr-2"></i>AI Image Generator
             </h2>
 
-            <div className="mb-4 p-3 bg-yellow-100 border border-yellow-400 text-yellow-800 rounded-md text-sm">
-                <strong className="font-bold">Notice:</strong> This demo runs entirely in your browser. For a real application, protect your API key on a server.
-            </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 gap-4">

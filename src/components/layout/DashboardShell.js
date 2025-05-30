@@ -39,6 +39,7 @@ const DashboardShell = ({ userInfo, onLogout }) => {
         // Use '/dashboard' for the index route (overview)
         // `end={true}` ensures only exact match is active for index route
         { name: 'Dashboard', path: '/dashboard', icon: 'fas fa-tachometer-alt', exact: true },
+        { name: 'AI Overview', path: '/dashboard/workflow', icon: 'fas fa-brain' },
         { name: 'Products', path: '/dashboard/products', icon: 'fas fa-box-open' },
         { name: 'Clients', path: '/dashboard/clients', icon: 'fas fa-users' },
         { name: 'Commissions', path: '/dashboard/commissions', icon: 'fas fa-file-invoice-dollar' },

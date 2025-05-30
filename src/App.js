@@ -11,6 +11,8 @@ import {
 // Import Page Components (Make sure these paths match your folder structure)
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
+import AIOverview from './pages/AIOverview';
+
 import DashboardShell from './components/layout/DashboardShell'; // Assuming DashboardShell is in layout components
 import DashboardOverview from './pages/DashboardOverview';
 import ProductsPage from './pages/ProductsPage';
@@ -193,6 +195,8 @@ export default function App() {
                         <Route element={<DashboardShell userInfo={userInfo} onLogout={handleLogout} />}>
                             {/* Child routes render inside DashboardShell's Outlet */}
                             <Route index element={<DashboardOverview />} /> {/* Default for /dashboard */}
+                            <Route path="workflow" element={<AIOverview />} />
+
                             <Route path="products" element={<ProductsPage />} />
                             <Route path="products/:productId" element={<ProductProfilePage />} />
                             <Route path="clients" element={<ClientsPage />} />
